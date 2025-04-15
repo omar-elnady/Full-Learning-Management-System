@@ -114,23 +114,10 @@ export const updateCourse = async (
         })),
       }));
     }
-    const newCourse = new CourseModel({
-      courseId: uuidv4(),
-      teacherId,
-      teacherName,
-      title: "Untitled Course",
-      description: "",
-      category: "Uncategorized",
-      image: "",
-      price: 0,
-      lever: "Beginner",
-      status: "Draft",
-      sections: [],
-      enrollments: [],
-    });
-    await newCourse.save();
-    res.json({ message: "Course created successfully", data: newCourse });
+    Object.assign(course, updateData);
+    await course.save();
+    res.json({ message: "Course updated successfully", data: course });
   } catch (error) {
-    res.status(500).json({ message: "Error creating course ", error });
+    res.status(500).json({ message: "Error updated course ", error });
   }
 };
