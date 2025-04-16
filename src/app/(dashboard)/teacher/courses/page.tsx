@@ -1,3 +1,6 @@
+import Header from "@/components/Header";
+import Loading from "@/components/Loading";
+import { Button } from "@/components/ui/button";
 import {
   useCreateCourseMutation,
   useDeleteeCourseMutation,
@@ -31,17 +34,6 @@ const CoursesTeacherPage = () => {
       return matchesCategory && matchesSearch;
     });
   }, [courses, searchTerm, selectedCategory]);
-  const handleEdit = (course: Course) => {
-    router.push(`/teacher/courses/${course.courseId}`, {
-      scroll: false,
-    });
-  };
-
-  const handleDelete = async (course: Course) => {
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      await deleteCourse(course.courseId).unwrap();
-    }
-  };
 
   const handleCreateCourse = async () => {
     if (!user) return;
@@ -51,14 +43,45 @@ const CoursesTeacherPage = () => {
       teacherName: user.fullName || "Unknown Teacher",
     }).unwrap();
     router.push(`/teacher/courses/${result.courseId}`, {
-      scroll: false,
+      //   scroll: false,
     });
+  };
+
+  const handleEdit = (course: Course) => {
+    router.push(`/teacher/courses/${course.courseId}`, {
+      //   scroll: false,
+    });
+  };
+
+  const handleDelete = async (course: Course) => {
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      await deleteCourse(course.courseId).unwrap();
+    }
   };
 
   if (isLoading) return <Loading />;
   if (isError || !courses) return <div>Error loading courses.</div>;
 
-  return <div></div>;
+  return (
+    <div className="teacher-courses">
+      <Header
+        title="Courses"
+        subtitle="Browser your courses"
+        rightElement={
+          <Button
+            onClick={() => handleCreateCourse()}
+            className="teacher-courses__header"
+          >
+            Create Course
+          </Button>
+        }
+      />
+      <Toolbar
+        onSearch={setSearchTerm}
+        onCategoryChange={setSelectedCategory}
+      />
+    </div>
+  );
 };
 
 export default CoursesTeacherPage;
