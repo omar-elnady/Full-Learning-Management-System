@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
+import Toolbar from "@/components/Toolbar";
 import { Button } from "@/components/ui/button";
 import {
   useCreateCourseMutation,
@@ -8,7 +9,7 @@ import {
   useGetCoursesQuery,
 } from "@/state/api";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 
 const CoursesTeacherPage = () => {
@@ -21,8 +22,8 @@ const CoursesTeacherPage = () => {
   } = useGetCoursesQuery({ category: "all" });
   const [createCourse] = useCreateCourseMutation();
   const [deleteCourse] = useDeleteeCourseMutation();
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const filteredCourses = useMemo(() => {
     if (!courses) return [];
@@ -81,6 +82,18 @@ const CoursesTeacherPage = () => {
         onSearch={setSearchTerm}
         onCategoryChange={setSelectedCategory}
       />
+      <div className="teacher-courses__gir">
+        {filteredCourses?.map((course) => (
+          <TeacherCourseCard
+            key={course.courseId}
+            course={course}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            isOwner={user?.id === course.teacherId}
+
+          />
+        ))}
+      </div>
     </div>
   );
 };
