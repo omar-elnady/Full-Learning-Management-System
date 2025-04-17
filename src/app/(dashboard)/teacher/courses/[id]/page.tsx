@@ -1,3 +1,4 @@
+"use client"
 import { courseSchema } from '@/app/lib/schemas';
 import { CustomFormField } from '@/components/CustomFormField';
 import DroppableComponent from '@/components/Droppable';
