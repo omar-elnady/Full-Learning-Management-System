@@ -12,7 +12,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const pathname = usePathname();
     const { user, isLoaded } = useUser();
     const router = useRouter();
-    console.log("pathname", pathname);
     useEffect(() => {
         if (!isLoaded) return; // انتظر حتى يتم تحميل بيانات المستخدم
 

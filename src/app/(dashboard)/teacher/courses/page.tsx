@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
+import TeacherCourseCard from "@/components/TeacherCourseCard";
 import Toolbar from "@/components/Toolbar";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +24,7 @@ const CoursesTeacherPage = () => {
   const [createCourse] = useCreateCourseMutation();
   const [deleteCourse] = useDeleteeCourseMutation();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const filteredCourses = useMemo(() => {
     if (!courses) return [];
@@ -82,7 +83,7 @@ const CoursesTeacherPage = () => {
         onSearch={setSearchTerm}
         onCategoryChange={setSelectedCategory}
       />
-      <div className="teacher-courses__gir">
+      <div className="teacher-courses__grid">
         {filteredCourses?.map((course) => (
           <TeacherCourseCard
             key={course.courseId}
