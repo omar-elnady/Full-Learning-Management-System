@@ -58,7 +58,7 @@ export const createCourse = async (
       category: "Uncategorized",
       image: "",
       price: 0,
-      lever: "Beginner",
+      level: "Beginner",
       status: "Draft",
       sections: [],
       enrollments: [],
