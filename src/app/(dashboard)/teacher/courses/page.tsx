@@ -1,3 +1,4 @@
+"use client";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";

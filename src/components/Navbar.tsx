@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const { user } = useUser();
-    const userRole = user?.publicMetadata?.userType as "studnet" | "teacher"
+    const userRole = user?.publicMetadata?.userType as "student" | "teacher"
     return (
         <nav className='dashboard-navbar '>
             <div className="dashboard-navbar__container">

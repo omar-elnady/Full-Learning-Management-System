@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 const SignUpComponant = () => {
     const searchParams = useSearchParams();
-    const { user } = useUser;
+    const { user } = useUser();
     const isCheckoutPage = searchParams.get("showSignUp") !== null;
     const courseId = searchParams.get("id");
     const signInUrl = isCheckoutPage ? `/checkout?step=1&id=${courseId}&showSignUp=false` : "/signin";
