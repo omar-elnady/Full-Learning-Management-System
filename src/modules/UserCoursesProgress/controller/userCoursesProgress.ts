@@ -92,7 +92,7 @@ export const updateUserCourseProgress = async (
     await progress.save();
 
     res.json({
-      message: "",
+      message: "Course progress updated successfully",
       data: progress,
     });
   } catch (error) {
