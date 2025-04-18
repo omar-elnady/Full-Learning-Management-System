@@ -11,7 +11,7 @@ router.post("/", requireAuth(), CourseController.createCourse);
 router.put(
   "/:courseId",
   requireAuth(),
-  upload.single("image"),
+  upload.any(),
   CourseController.updateCourse
 );
 router.delete("/:courseId", requireAuth(), CourseController.deleteCourse);

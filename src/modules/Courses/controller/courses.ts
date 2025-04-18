@@ -84,7 +84,8 @@ export const updateCourse = async (
       res.status(404).json({ message: "Course not found" });
       return;
     }
-    if (course.techerId !== userId) {
+
+    if (course.teacherId !== userId) {
       res.status(403).json({ message: "Not authorized to update this course" });
       return;
     }
@@ -105,13 +106,26 @@ export const updateCourse = async (
           ? JSON.parse(updateData.sections)
           : updateData.sections;
 
-      updateData.sections = sectionsData.map((section: any) => ({
+      updateData.sections = sectionsData.map((section: any , sectionIndex : number) => ({
         ...section,
         sectionId: section.sectionId || uuidv4(),
-        chapters: section.chapters.map((chapter: any) => ({
-          ...chapter,
-          chapterId: chapter.chapterId || uuidv4(),
-        })),
+        chapters: section.chapters.map((chapter: any, chapterIndex: number) => {
+          let videoFieldName: string;
+
+          if (typeof chapter.video === "string") {
+            videoFieldName = chapter.video; 
+          } else if (typeof chapter.video === "object" && chapter.video !== null && chapter.video.originalname) {
+            videoFieldName = `video-${sectionIndex}-${chapterIndex}`;
+          } else {
+            throw new Error(`Invalid video format at section ${sectionIndex}, chapter ${chapterIndex}`);
+          }
+
+          return {
+            ...chapter,
+            chapterId: chapter.chapterId || uuidv4(),
+            video: videoFieldName,
+          };
+        }),
       }));
     }
     Object.assign(course, updateData);
@@ -137,7 +151,7 @@ export const deleteCourse = async (
       res.status(404).json({ message: "Course not found" });
       return;
     }
-    if (course.techerId !== userId) {
+    if (course.teacherId !== userId) {
       res.status(403).json({ message: "Not authorized to update this course" });
       return;
     }
