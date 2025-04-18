@@ -59,7 +59,7 @@ const customBase = async (
 export const api = createApi({
   baseQuery: customBase,
   reducerPath: "api",
-  tagTypes: ["Courses", "Users" , "UserCourseProgress"],
+  tagTypes: ["Courses", "Users", "UserCourseProgress"],
   endpoints: (build) => ({
     /* 
     ===
@@ -155,11 +155,11 @@ export const api = createApi({
         body: transaction,
       }),
     }),
-     /* 
-    ===
-    USER COURSE PROGRESS
-    === 
-    */
+    /* 
+   ===
+   USER COURSE PROGRESS
+   === 
+   */
     getUserEnrolledCourses: build.query<Course[], string>({
       query: (userId) => `course-progress/${userId}/enrolled-courses`,
       providesTags: ["Courses", "UserCourseProgress"],
@@ -213,6 +213,24 @@ export const api = createApi({
         }
       },
     }),
+    getUploadVideoURL: build.mutation<
+      { uploadUrl: string, videoId: string }, {
+        courseId: string,
+        chapterId: string,
+        sectionId: string,
+        fileName: string,
+        fileType: string,
+      }
+    >({
+      query: ({ courseId, chapterId, sectionId, fileName, fileType }) => ({
+        url: `courses/${courseId}/sections/${sectionId}/chapters/${chapterId}/get-upload-url`,
+        method: 'POST',
+        body: {
+          fileName,
+          fileType,
+        }
+      })
+    })
   }),
 });
 
@@ -226,7 +244,8 @@ export const {
   useCreateStripePaymentIntentMutation,
   useCreateTransactionMutation,
   useGetTransactionsQuery,
-  useGetUserEnrolledCoursesQuery, 
-  useGetUserCourseProgressQuery ,
-  useUpdateUserCourseProgressMutation
+  useGetUserEnrolledCoursesQuery,
+  useGetUserCourseProgressQuery,
+  useUpdateUserCourseProgressMutation , 
+  useGetUploadVideoURLMutation
 } = api;
