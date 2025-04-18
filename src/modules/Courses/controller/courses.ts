@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import CourseModel from "../../../../DB/models/courseModel";
 import { v4 as uuidv4 } from "uuid";
+import AWS from "aws-sdk";
+
 import { getAuth } from "@clerk/express";
+const s3 = new AWS.S3()
 export const listCourses = async (
   req: Request,
   res: Response,
@@ -106,14 +109,14 @@ export const updateCourse = async (
           ? JSON.parse(updateData.sections)
           : updateData.sections;
 
-      updateData.sections = sectionsData.map((section: any , sectionIndex : number) => ({
+      updateData.sections = sectionsData.map((section: any, sectionIndex: number) => ({
         ...section,
         sectionId: section.sectionId || uuidv4(),
         chapters: section.chapters.map((chapter: any, chapterIndex: number) => {
           let videoFieldName: string;
 
           if (typeof chapter.video === "string") {
-            videoFieldName = chapter.video; 
+            videoFieldName = chapter.video;
           } else if (typeof chapter.video === "object" && chapter.video !== null && chapter.video.originalname) {
             videoFieldName = `video-${sectionIndex}-${chapterIndex}`;
           } else {
@@ -161,3 +164,36 @@ export const deleteCourse = async (
     res.status(500).json({ message: "Error deleting course ", error });
   }
 };
+
+export const getUploadVideoUrl = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { fileName, fileType } = req.body;
+
+  if (!fileName || !fileType) {
+    res.status(400).json({ message: "File name and file type are required" })
+    return;
+  }
+
+  try {
+    const uniqueId = uuidv4();
+    const s3Key = `videos/${uniqueId}/${fileName}`;
+    const s3Parmas = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: s3Key,
+      Expires: 60,
+      ContentType: fileType,
+    }
+    const uploadUrl = s3.getSignedUrl("putObject", s3Parmas);
+    const videoUrl = `${process.env.CLOUDFRONT_DOMAIN}/videos/${uniqueId}/${fileName}`;
+    res.json({
+      message: "Upload URL generated successfully",
+      data: {
+        uploadUrl,
+        videoUrl,
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error generating upload URL", error })
+
+  }
+
+}
