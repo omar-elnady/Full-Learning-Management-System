@@ -1,3 +1,4 @@
+import { ChapterFormData, chapterSchema } from "@/app/lib/schemas";
 import { CustomFormField } from "@/components/CustomFormField";
 import CustomModal from "@/components/CustomModal";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ChapterFormData, chapterSchema } from "@/lib/schemas";
 import { addChapter, closeChapterModal, editChapter } from "@/state";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { zodResolver } from "@hookform/resolvers/zod";

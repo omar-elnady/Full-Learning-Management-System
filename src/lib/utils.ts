@@ -287,7 +287,6 @@ export const customDataGridStyles = {
     color: "#6e6e6e",
   },
 };
-
 export const createCourseFormData = (
   data: CourseFormData,
   sections: Section[]
@@ -299,18 +298,28 @@ export const createCourseFormData = (
   formData.append("price", data.coursePrice.toString());
   formData.append("status", data.courseStatus ? "Published" : "Draft");
 
-  const sectionsWithVideos = sections.map((section) => ({
+  const sectionsCopy = sections.map((section, sectionIndex) => ({
     ...section,
-    chapters: section.chapters.map((chapter) => ({
-      ...chapter,
-      video: chapter.video,
-    })),
+    chapters: section.chapters.map((chapter, chapterIndex) => {
+      const videoKey = `video-${sectionIndex}-${chapterIndex}`;
+
+      if (chapter.video instanceof File) {
+        formData.append(videoKey, chapter.video);
+        return {
+          ...chapter,
+          video: videoKey,
+        };
+      }
+
+      return chapter; 
+    }),
   }));
 
-  formData.append("sections", JSON.stringify(sectionsWithVideos));
+  formData.append("sections", JSON.stringify(sectionsCopy));
 
   return formData;
 };
+
 
 export const uploadAllVideos = async (
   localSections: Section[],

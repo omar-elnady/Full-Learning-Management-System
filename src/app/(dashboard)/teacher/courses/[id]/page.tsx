@@ -14,6 +14,8 @@ import { ArrowLeft, Plus } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
+import ChapterModal from './ChapterModal';
+import SectionModal from './SectionModel';
 
 const CourseEditor = () => {
     const router = useRouter();
@@ -50,13 +52,13 @@ const CourseEditor = () => {
         }
     }, [course, methods]);
 
+    // const updatedSections = await uploadAllVideos(
+    //     sections,
+    //     id,
+    //     getUploadVideoUrl
+    // );
     const onSubmit = async (data: CourseFormData) => {
         try {
-            // const updatedSections = await uploadAllVideos(
-            //     sections,
-            //     id,
-            //     getUploadVideoUrl
-            // );
 
             const formData = createCourseFormData(data, sections);
 
@@ -192,6 +194,8 @@ const CourseEditor = () => {
                     </div>
                 </form>
             </Form>
+            <ChapterModal/>
+            <SectionModal/>
         </div>
     )
 }
