@@ -1,14 +1,15 @@
 "use client"
-import CourseCardSearch from '@/components/CourseCard';
 import Loading from '@/components/Loading';
 import { useGetCoursesQuery } from '@/state/api';
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import SelectedCourse from './SelectedCourse';
-
+import CourseCardSearch from '@/components/CourseCardSearch';
+import { useUser } from '@clerk/nextjs';
 const Search = () => {
     const searchParams = useSearchParams();
+    const { user, isLoaded } = useUser();
     const router = useRouter();
     const id = searchParams.get("id");
     const { data: courses, isLoading, isError } = useGetCoursesQuery({});
@@ -31,7 +32,9 @@ const Search = () => {
         router.push(`/search?id=${course.courseId}`)
     }
     const handleEnrollNow = (courseId: string) => {
-        router.push(`/checkout?step=1&id=${courseId}`)
+
+        user && isLoaded ? router.push(`/checkout?step=2&id=${courseId}`) : router.push(`/checkout?step=1&id=${courseId}`)
+
     }
     return (
         <motion.div

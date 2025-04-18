@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useCarousel } from "@/hooks/useCarousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCoursesQuery } from "@/state/api";
-import CourseCardSearch from "@/components/CourseCard";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import CourseCardSearch from "@/components/CourseCardSearch";
 
 const LoadingSkeleton = () => {
   return (

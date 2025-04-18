@@ -1,52 +1,54 @@
-
-
-import { formatPrice } from '@/lib/utils'
-import Image from 'next/image'
-import React from 'react'
-
-const CourseCardSearch = ({
-  course,
-  isSelected,
-  onClick }: SearchCourseCardProps
-) => {
-  return (
-    <div
-      onClick={onClick} className={`course-card-search group ${isSelected ? "course-card-search--selected" :
-        "course-card-search--unselected"
-        } `}
-    >
-      <div className="course-card-search__image-container">
-        <Image
-          src={course.image || "/placeholder.png"}
-          alt={course.title}
-          fill
-          sizes="(max-width : 768px) 100vw , (max-width:1200px) 50vw , 33vw "
-          className='course-card-search__image'
-        />
-      </div>
-      <div className="course-card-search__content">
-        <h2 className='course-card-search__title'>{course.title}</h2>
-        <p className='course-card-search__description'>{course.description}</p>
-      </div>
-      <div className='mt-2'>
-
-
-        <div className='course-card-search__footer'>
-
-
-          <span className="course-card-search__price">
-            {formatPrice(course.price)}
-          </span>
-          <span className='course-card-search__enrollment'>
-            {course.enrollments?.length} Enrolled
-          </span>
-        </div>
-        <p className='course-card-search__teacher'>
-            By {course.teacherName}
-          </p>
-      </div>
-    </div>
-  )
-}
-
-export default CourseCardSearch
+import {
+    Card,
+    CardHeader,
+    CardContent,
+    CardTitle,
+    CardFooter,
+  } from "@/components/ui/card";
+  import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+  import Image from "next/image";
+  import { formatPrice } from "@/lib/utils";
+  
+  const CourseCard = ({ course, onGoToCourse }: CourseCardProps) => {
+    return (
+      <Card className="course-card group" onClick={() => onGoToCourse(course)}>
+        <CardHeader className="course-card__header">
+          <Image
+            src={course.image || "/placeholder.png"}
+            alt={course.title}
+            width={400}
+            height={350}
+            className="course-card__image"
+            priority
+          />
+        </CardHeader>
+        <CardContent className="course-card__content">
+          <CardTitle className="course-card__title">
+            {course.title}: {course.description}
+          </CardTitle>
+  
+          <div className="flex items-center gap-2">
+            <Avatar className="w-6 h-6">
+              <AvatarImage alt={course.teacherName} />
+              <AvatarFallback className="bg-secondary-700 text-black">
+                {course.teacherName[0]}
+              </AvatarFallback>
+            </Avatar>
+  
+            <p className="text-sm text-customgreys-dirtyGrey">
+              {course.teacherName}
+            </p>
+          </div>
+  
+          <CardFooter className="course-card__footer">
+            <div className="course-card__category">{course.category}</div>
+            <span className="course-card__price">
+              {formatPrice(course.price)}
+            </span>
+          </CardFooter>
+        </CardContent>
+      </Card>
+    );
+  };
+  
+  export default CourseCard;
