@@ -23,18 +23,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         if (!isLoaded) return;
 
         if (!user) {
-            router.push("/sign-in");
+            router.push("/sign-in", {
+                scroll: false,
+            });
             return;
         }
 
         const userType = user.publicMetadata?.userType;
         if (userType === "teacher" && pathname == "/teacher/courses") {
-            router.push(pathname);
+            router.push(pathname, {
+                scroll: false,
+            });
         }
         else if (userType === "user" && pathname !== "/user/courses") {
-            router.push(pathname);
+            router.push(pathname, {
+                scroll: false,
+            });
         } else if (!userType) {
-            router.push("/setup");
+            router.push("/setup", {
+                scroll: false,
+            });
         }
         if (isCoursePage) {
             const match = pathname.match(/\/user\/courses\/([^\/]+)/);

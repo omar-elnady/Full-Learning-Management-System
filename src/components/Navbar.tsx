@@ -20,7 +20,7 @@ const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
                     </div>
                     <div className='flex items-center gap-4'>
                         <div className='relative  group '>
-                            <Link href="/search" className={cn("dashboard-navbar__search-input", {
+                            <Link href="/search"  scroll={false} className={cn("dashboard-navbar__search-input", {
                                 "!bg-customgreys-secondarybg": isCoursePage,
                             }
                             )}>

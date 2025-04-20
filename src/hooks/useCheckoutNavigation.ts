@@ -13,7 +13,9 @@ export const useCheckoutNavigation = () => {
             const newStep = Math.min(Math.max(1, step), 3)
             const showSignUp = isSignedIn ? "true" : "false";
             return router.push(
-                `/checkout?step=${newStep}&id=${courseId}&showSignUp=${showSignUp}`
+                `/checkout?step=${newStep}&id=${courseId}&showSignUp=${showSignUp}`, {
+                scroll: false,
+            }
             );
         },
         [router, courseId, isSignedIn]

@@ -13,7 +13,7 @@ const Footer = () => {
             <p>&copy; 2025 Omar El-nady . All Right Reserved</p>
             <div className="footer__links">
                 {links.map((link, index) => (
-                    <Link key={index} href={`/${link.toLowerCase().replace(" ", "-")} `}
+                    <Link key={index} href={`/${link.toLowerCase().replace(" ", "-")} `} scroll={false}
                         className='footer__link' >
                         {link}
                     </Link>

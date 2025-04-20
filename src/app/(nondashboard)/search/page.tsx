@@ -29,11 +29,17 @@ const Search = () => {
 
     const handleCourseSelect = (course: Course) => {
         setSelectedCourse(course)
-        router.push(`/search?id=${course.courseId}`)
+        router.push(`/search?id=${course.courseId}`, {
+            scroll: false,
+        })
     }
     const handleEnrollNow = (courseId: string) => {
 
-        user && isLoaded ? router.push(`/checkout?step=2&id=${courseId}`) : router.push(`/checkout?step=1&id=${courseId}`)
+        user && isLoaded ? router.push(`/checkout?step=2&id=${courseId} `, {
+            scroll: false,
+        }) : router.push(`/checkout?step=1&id=${courseId}`, {
+            scroll: false,
+        })
 
     }
     return (
