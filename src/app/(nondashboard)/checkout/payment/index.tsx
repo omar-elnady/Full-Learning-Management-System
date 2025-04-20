@@ -2,7 +2,7 @@
 import React from 'react'
 import StripeProvider from './StripeProvider'
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import {  useCreateTransactionMutation } from '@/state/api';
+import { useCreateTransactionMutation } from '@/state/api';
 import { useCheckoutNavigation } from '@/hooks/useCheckoutNavigation';
 import { useCurrentCourse } from '@/hooks/useCurrentCourse';
 import { useUser, useClerk } from '@clerk/nextjs';
@@ -21,6 +21,8 @@ const PaymentPageContent = () => {
     const { signOut } = useClerk()
 
 
+    const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL ? `https://${process.env.NEXT_PUBLIC_LOCAL_URL}`
+        : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : undefined;
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!stripe || !elements) {
@@ -29,7 +31,7 @@ const PaymentPageContent = () => {
         const result = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: `${process.env.NEXT_PUBLIC_STRIPE_REDIRECT_URL}?id=${courseId}`
+                return_url: `${baseUrl}/checkout?step=3&?id=${courseId}`
             },
             redirect: "if_required"
         })
@@ -46,7 +48,7 @@ const PaymentPageContent = () => {
         }
     }
     const handleSignOutAndNavigate = async () => {
-        await signOut() ; 
+        await signOut();
         navigateToStep(1)
     }
     if (!course) return null;
