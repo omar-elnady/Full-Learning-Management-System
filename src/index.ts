@@ -9,7 +9,7 @@ import seed from '../DB/Connection/connection'
 
 
 dotenv.config();
-const app = express()
+const app :   Express = express()
 const port = process.env.port || 5000;
 
 export const clerkClient = createClerkClient({
@@ -23,10 +23,11 @@ bootstarp(app, express)
 const isProduction = process.env.Node_ENV === "production"
 if (!isProduction) {
     mongoose.connect(process.env.MONGO_URI!, {
-        dbName: 'LmsCourses', // ✅ حط اسم قاعدة البيانات هنا لو محتاج
+        dbName: 'LmsCourses', 
     })
     .then(() => {
         console.log("Connected to MongoDB");
+
 
         app.listen(port, () => {
             console.log(`Server is running on Port ${port}`);
