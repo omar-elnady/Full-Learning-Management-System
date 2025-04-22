@@ -19,6 +19,7 @@
     "@types/multer": "^1.4.12",
     "aws-sdk": "^2.1692.0",
     "body-parser": "^1.20.3",
+    "core-js": "^3.41.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "dynamoose": "^4.0.3",
