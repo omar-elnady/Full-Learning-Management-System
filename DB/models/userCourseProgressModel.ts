@@ -1,6 +1,27 @@
-import { Schema, model } from "dynamoose";
+import mongoose, { Schema, model, Document, Types } from "mongoose";
 
-const chapterProgressSchema = new Schema({
+interface IChapterProgress {
+  chapterId: string;
+  completed: boolean;
+}
+
+interface ISectionProgress {
+  sectionId: string;
+  chapters: IChapterProgress[];
+}
+
+interface IUserCourseProgress extends Document {
+  userId: string;
+  courseId: string;
+  enrollmentDate: string;
+  overallProgress: number;
+  sections: Types.DocumentArray<ISectionProgress>;
+  lastAccessedTimestamp: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const chapterProgressSchema = new Schema<IChapterProgress>({
   chapterId: {
     type: String,
     required: true,
@@ -11,27 +32,25 @@ const chapterProgressSchema = new Schema({
   },
 });
 
-const sectionProgressSchema = new Schema({
+const sectionProgressSchema = new Schema<ISectionProgress>({
   sectionId: {
     type: String,
     required: true,
   },
   chapters: {
-    type: Array,
-    schema: [chapterProgressSchema],
+    type: [chapterProgressSchema],
+    required: true,
   },
 });
 
-const userCourseProgressSchema = new Schema(
+const userCourseProgressSchema = new Schema<IUserCourseProgress>(
   {
     userId: {
       type: String,
-      hashKey: true,
       required: true,
     },
     courseId: {
       type: String,
-      rangeKey: true,
       required: true,
     },
     enrollmentDate: {
@@ -43,8 +62,8 @@ const userCourseProgressSchema = new Schema(
       required: true,
     },
     sections: {
-      type: Array,
-      schema: [sectionProgressSchema],
+      type: [sectionProgressSchema],
+      required: true,
     },
     lastAccessedTimestamp: {
       type: String,
@@ -56,8 +75,5 @@ const userCourseProgressSchema = new Schema(
   }
 );
 
-const UserCourseProgress = model(
-  "UserCourseProgress",
-  userCourseProgressSchema
-);
-export default UserCourseProgress;
+const userCourseProgressModel = model<IUserCourseProgress>("UserCourseProgress", userCourseProgressSchema);
+export default userCourseProgressModel;

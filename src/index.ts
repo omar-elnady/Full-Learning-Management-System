@@ -1,10 +1,10 @@
 import express, { Express } from "express"
 import bootstarp from "./bootstrap";
 import dotenv from 'dotenv';
-import * as dynamoose from 'dynamoose';
+import mongoose from "mongoose";
 import { createClerkClient } from '@clerk/express';
 import serverless from 'serverless-http';
-import seed from './../DB/Connection/Dynamodb'
+import seed from '../DB/Connection/connection'
 
 
 
@@ -22,13 +22,19 @@ bootstarp(app, express)
 
 const isProduction = process.env.Node_ENV === "production"
 if (!isProduction) {
-    dynamoose.aws.ddb.local();
-
-    app.listen(port, () => {
-        console.log(
-            `Server is running on Port ${port} `
-        )
+    mongoose.connect(process.env.MONGO_URI!, {
+        dbName: 'LmsCourses', // ✅ حط اسم قاعدة البيانات هنا لو محتاج
     })
+    .then(() => {
+        console.log("Connected to MongoDB");
+
+        app.listen(port, () => {
+            console.log(`Server is running on Port ${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error("MongoDB connection error:", err);
+    });
 }
 
 const serverLessApp = serverless(app);

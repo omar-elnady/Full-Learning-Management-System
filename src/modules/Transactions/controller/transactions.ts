@@ -1,19 +1,22 @@
 import Stripe from "stripe";
-
 import dotenv from "dotenv";
-import { NextFunction, Response, Request } from "express";
+import { Request, Response } from "express";
 import Course from "../../../../DB/models/courseModel";
 import Transaction from "../../../../DB/models/transactionModel";
 import UserCourseProgress from "../../../../DB/models/userCourseProgressModel";
 
 dotenv.config();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error(
-    "Missing STRIPE_SECRET_KEY is required but not fount in env variable"
+    "Missing STRIPE_SECRET_KEY is required but not found in env variable"
   );
 }
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string, {
+    apiVersion: "2023-08-16" as any,
+  });
+  
 
 export const listTransactions = async (
   req: Request,
@@ -23,15 +26,15 @@ export const listTransactions = async (
 
   try {
     const transactions = userId
-      ? await Transaction.query("userId").eq(userId).exec()
-      : await Transaction.scan().exec();
+      ? await Transaction.find({ userId })
+      : await Transaction.find();
 
     res.json({
       message: "Transactions Retrieved Successfully",
       data: transactions,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error Retrieved Transactions ", error });
+    res.status(500).json({ message: "Error retrieving transactions", error });
   }
 };
 
@@ -56,7 +59,7 @@ export const createStripePaymentIntent = async (
     });
 
     res.json({
-      message: "",
+      message: "Stripe Payment Intent Created Successfully",
       data: {
         clientSecret: paymentIntent.client_secret,
       },
@@ -75,11 +78,15 @@ export const createTransaction = async (
   const { userId, courseId, transactionId, amount, paymentProvider } = req.body;
 
   try {
-    // 1. get course info
-    const course = await Course.get(courseId);
+    // 1. Get course info
+    const course = await Course.findById(courseId);
+    if (!course) {
+      res.status(404).json({ message: "Course not found" });
+      return;
+    }
 
-    // 2. create transaction record
-    const newTransaction = new Transaction({
+    // 2. Create transaction
+    const newTransaction = await Transaction.create({
       dateTime: new Date().toISOString(),
       userId,
       courseId,
@@ -87,34 +94,26 @@ export const createTransaction = async (
       amount,
       paymentProvider,
     });
-    await newTransaction.save();
 
-    // 3. create initial course progress
-    const initialProgress = new UserCourseProgress({
+    // 3. Create initial course progress
+    const initialProgress = await UserCourseProgress.create({
       userId,
       courseId,
       enrollmentDate: new Date().toISOString(),
       overallProgress: 0,
       sections: course.sections.map((section: any) => ({
-        sectionId: section.sectionId,
+        sectionId: section._id || section.sectionId,
         chapters: section.chapters.map((chapter: any) => ({
-          chapterId: chapter.chapterId,
+          chapterId: chapter._id || chapter.chapterId,
           completed: false,
         })),
       })),
       lastAccessedTimestamp: new Date().toISOString(),
     });
-    await initialProgress.save();
 
-    // 4. add enrollment to relevant course
-    await Course.update(
-      { courseId },
-      {
-        $ADD: {
-          enrollments: [{ userId }],
-        },
-      }
-    );
+    // 4. Add user to course enrollments
+    course.enrollments.push({ userId });
+    await course.save();
 
     res.json({
       message: "Purchased Course successfully",
@@ -124,8 +123,9 @@ export const createTransaction = async (
       },
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error creating transaction and enrollment", error });
+    res.status(500).json({
+      message: "Error creating transaction and enrollment",
+      error,
+    });
   }
 };

@@ -1,16 +1,15 @@
-import { Schema, model } from "dynamoose";
+import mongoose, { Schema, model } from "mongoose";
 
 const transactionSchema = new Schema(
   {
     userId: {
       type: String,
-      hashKey: true,
       required: true,
     },
     transactionId: {
       type: String,
-      rangeKey: true,
       required: true,
+      unique: true, 
     },
     dateTime: {
       type: String,
@@ -19,23 +18,22 @@ const transactionSchema = new Schema(
     courseId: {
       type: String,
       required: true,
-      index: {
-        name: "CourseTransactionsIndex",
-        type: "global",
-      },
+      index: true, 
     },
     paymentProvider: {
       type: String,
       enum: ["stripe"],
       required: true,
     },
-    amount: Number,
+    amount: {
+      type: Number,
+    },
   },
   {
-    saveUnknown: true,
     timestamps: true,
+    strict: false,
   }
 );
 
-const Transaction = model("Transaction", transactionSchema);
-export default Transaction;
+const TransactionModel = model("Transaction", transactionSchema);
+export default TransactionModel;
