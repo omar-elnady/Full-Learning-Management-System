@@ -3,8 +3,7 @@ import bootstarp from "./bootstrap";
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
 import { createClerkClient } from '@clerk/express';
-import serverless from 'serverless-http';
-import seed from '../DB/Connection/connection'
+
 
 
 
@@ -36,21 +35,5 @@ if (!isProduction) {
     .catch((err) => {
         console.error("MongoDB connection error:", err);
     });
-}
-
-const serverLessApp = serverless(app);
-
-export const handler = async (event: any, context: any) => {
-    if (event.action === "seed") {
-        await seed();
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ message: "Database seeded successfully" }),
-        };
-    } else {
-        return serverLessApp(event, context);
-    }
-
-
 }
 

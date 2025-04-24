@@ -16,5 +16,4 @@ router.put(
 );
 router.delete("/:courseId", requireAuth(), CourseController.deleteCourse);
 router.get("/:courseId", CourseController.getCourse);
-router.post("/:courseId/sections/:sectionsId/chapters/:chapterId/get-upload-url")
 export default router;
