@@ -15,7 +15,7 @@ const chapterSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   comments: [commentSchema],
-  video: { type: String },
+  video: { secure_url: String, public_id: String },
 }, { _id: false });
 
 // 🟡 Section Schema

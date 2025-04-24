@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import CourseModel from "../../../../DB/models/courseModel";
 import { v4 as uuidv4 } from "uuid";
-import AWS from "aws-sdk";
 import { getAuth } from "@clerk/express";
+import cloudinary from "../../../utils/cloudinary";
 
-const s3 = new AWS.S3();
 
 export const listCourses = async (
   req: Request,
@@ -113,33 +112,41 @@ export const updateCourse = async (
           ? JSON.parse(updateData.sections)
           : updateData.sections;
 
-      updateData.sections = sectionsData.map((section: any, sectionIndex: number) => ({
+      updateData.sections = await Promise.all(sectionsData.map(async (section: any, sectionIndex: number) => ({
         ...section,
         sectionId: section.sectionId || uuidv4(),
-        chapters: section.chapters.map((chapter: any, chapterIndex: number) => {
-          let videoFieldName: string;
+        chapters: await Promise.all(section.chapters.map(async (chapter: any, chapterIndex: number) => {
+          let videoData = {
+            secure_url: "",
+            public_id: "",
+          };
 
-          if (typeof chapter.video === "string") {
-            videoFieldName = chapter.video;
-          } else if (
-            typeof chapter.video === "object" &&
-            chapter.video !== null &&
-            chapter.video.originalname
-          ) {
-            videoFieldName = `video-${sectionIndex}-${chapterIndex}`;
-          } else {
-            throw new Error(
-              `Invalid video format at section ${sectionIndex}, chapter ${chapterIndex}`
-            );
+          if (chapter.type === "Video" && chapter.video && typeof chapter.video === 'object') {
+            try {
+              const result = await cloudinary.uploader.upload(chapter.video, {
+                folder: `courses/${courseId}/sections/${sectionIndex}/chapters/${chapterIndex}`,
+                resource_type: 'video',
+                allowed_formats: ['mp4', 'webm', 'mov'],
+              });
+
+              chapter.video = {
+                secure_url: result.secure_url,
+                public_id: result.public_id
+              };
+            } catch (error) {
+              console.error(`Error uploading video for chapter ${chapter.title}:`, error);
+              throw new Error(`Failed to upload video for chapter ${chapter.title}`);
+            }
           }
+
 
           return {
             ...chapter,
             chapterId: chapter.chapterId || uuidv4(),
-            video: videoFieldName,
+            
           };
-        }),
-      }));
+        })),
+      })));
     }
 
     await CourseModel.findByIdAndUpdate(courseId, updateData, { new: true });
