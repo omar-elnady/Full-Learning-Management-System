@@ -47,7 +47,7 @@ const NonDashboardNavbar = () => {
                             showName={true}
                             userProfileMode='navigation'
                             userProfileUrl={
-                                userRole === "teacher" ? "/teacher/profile" : "/user/profile"
+                                userRole === "teacher" ? "/dashboard/teacher/profile" : "/dashboard/user/profile"
                             } />
                     </SignedIn>
                     <SignedOut>

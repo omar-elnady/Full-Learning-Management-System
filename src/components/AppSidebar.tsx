@@ -32,16 +32,16 @@ const AppSidebar = () => {
   const { toggleSidebar } = useSidebar();
   const navLinks = {
     student: [
-      { icon: BookOpen, label: "Courses", href: "/user/courses" },
-      { icon: Briefcase, label: "Billing", href: "/user/billing" },
-      { icon: User, label: "Profile", href: "/user/profile" },
-      { icon: Settings, label: "Settings", href: "/user/settings" },
+      { icon: BookOpen, label: "Courses", href: "/dashboard/user/courses" },
+      { icon: Briefcase, label: "Billing", href: "/dashboard/user/billing" },
+      { icon: User, label: "Profile", href: "/dashboard/user/profile" },
+      { icon: Settings, label: "Settings", href: "/dashboard/user/settings" },
     ],
     teacher: [
-      { icon: BookOpen, label: "Courses", href: "/teacher/courses" },
-      { icon: DollarSign, label: "Billing", href: "/teacher/billing" },
-      { icon: User, label: "Profile", href: "/teacher/profile" },
-      { icon: Settings, label: "Settings", href: "/teacher/settings" },
+      { icon: BookOpen, label: "Courses", href: "/dashboard/teacher/courses" },
+      { icon: DollarSign, label: "Billing", href: "/dashboard/teacher/billing" },
+      { icon: User, label: "Profile", href: "/dashboard/teacher/profile" },
+      { icon: Settings, label: "Settings", href: "/dashboard/teacher/settings" },
     ],
   };
   if (!isLoaded) return <Loading />;
