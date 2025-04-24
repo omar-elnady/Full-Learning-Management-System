@@ -18,58 +18,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     );
     const router = useRouter();
 
-    console.log("pathname", pathname);
-
     useEffect(() => {
         const handleNavigation = async () => {
             if (!isLoaded) return;
 
             if (!user) {
-                await router.replace("/sign-in");
+                 router.replace("/sign-in");
                 return;
             }
 
             const userType = user.publicMetadata?.userType as string;
-            console.log("Current userType:", userType);
-            console.log("Current pathname:", pathname);
-
-            // Handle dashboard route
             if (pathname === "/dashboard") {
-                try {
-                    if (userType === "teacher") {
-                        await router.replace("/dashboard/teacher/courses");
-                    } else if (userType === "user") {
-                        await router.replace("/dashboard/user/courses");
-                    } else {
-                        await router.replace("/setup");
-                    }
-                    return;
-                } catch (error) {
-                    console.error("Navigation error:", error);
+                if (userType === "teacher") {
+                     router.replace("/dashboard/teacher/courses");
+                } else if (userType === "user") {
+                     router.replace("/dashboard/user/courses");
                 }
+                return;
             }
-
-            // Handle wrong routes for teacher
             if (userType === "teacher" && !pathname.includes("/dashboard/teacher")) {
-                try {
-                    await router.replace("/dashboard/teacher/courses");
-                    return;
-                } catch (error) {
-                    console.error("Teacher navigation error:", error);
-                }
+                 router.replace("/dashboard/teacher/courses");
+                return;
             }
-
-            // Handle wrong routes for user
             if (userType === "user" && !pathname.includes("/dashboard/user")) {
-                try {
-                    await router.replace("/dashboard/user/courses");
-                    return;
-                } catch (error) {
-                    console.error("User navigation error:", error);
-                }
+                 router.replace("/dashboard/user/courses");
+                return;
             }
-
-            // Handle course ID
             if (isCoursePage) {
                 const match = pathname.match(/\/user\/courses\/([^\/]+)/);
                 setCourseId(match ? match[1] : null);

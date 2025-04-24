@@ -14,7 +14,7 @@ export const useCarousel = ({
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % totalImages);
-            console.log("Current Image:", currentImage); // إضافة console.log
+            console.log("Current Image:", currentImage); 
         }, interval);
 
         return () => clearInterval(timer);
