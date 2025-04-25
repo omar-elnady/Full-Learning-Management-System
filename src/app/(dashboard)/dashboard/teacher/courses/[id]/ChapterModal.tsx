@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { validateVideo } from "@/lib/utils";
 import { addChapter, closeChapterModal, editChapter } from "@/state";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +40,7 @@ const ChapterModal = () => {
     defaultValues: {
       title: "",
       content: "",
-      video: "",
+      video: undefined,
     },
   });
 
@@ -48,13 +49,13 @@ const ChapterModal = () => {
       methods.reset({
         title: chapter.title,
         content: chapter.content,
-        video: chapter.video || "",
+        video: chapter.video || undefined,
       });
     } else {
       methods.reset({
         title: "",
         content: "",
-        video: "",
+        video: undefined,
       });
     }
   }, [chapter, methods]);
@@ -66,12 +67,19 @@ const ChapterModal = () => {
   const onSubmit = (data: ChapterFormData) => {
     if (selectedSectionIndex === null) return;
 
+    if (data.video instanceof File) {
+      if (!validateVideo(data.video)) {
+        return;
+      }
+    }
+
     const newChapter: Chapter = {
       chapterId: chapter?.chapterId || uuidv4(),
-      title: data.title,
-      content: data.content,
+      title: data.title.trim(),
+      content: data.content.trim(),
       type: data.video ? "Video" : "Text",
-      video: data.video,
+      video: data.video || undefined,
+      comments: chapter?.comments || []
     };
 
     if (selectedChapterIndex === null) {
@@ -148,7 +156,7 @@ const ChapterModal = () => {
                       />
                       {typeof value === "string" && value && (
                         <div className="my-2 text-sm text-gray-600">
-                          Current video: {value.split("/").pop()}
+                          Current video: {(value as string)?.split("/").pop()}
                         </div>
                       )}
                       {value instanceof File && (

@@ -298,100 +298,55 @@ export const createCourseFormData = (
   formData.append("price", data.coursePrice.toString());
   formData.append("status", data.courseStatus ? "Published" : "Draft");
 
-  const sectionsCopy = sections.map((section, sectionIndex) => ({
-    ...section,
-    chapters: section.chapters.map((chapter, chapterIndex) => {
-      const videoKey = `video-${sectionIndex}-${chapterIndex}`;
 
+  const processedSections = sections.map(section => ({
+    ...section,
+    chapters: section.chapters.map(chapter => {
+      // Don't modify existing video URLs
+      if (chapter.video && typeof chapter.video === 'object' && 'secure_url' in chapter.video) {
+        return chapter;
+      }
+
+      // For new video files, create a placeholder
       if (chapter.video instanceof File) {
-        formData.append(videoKey, chapter.video);
+        const videoFieldName = `video-${section.sectionId}-${chapter.chapterId}`;
+        formData.append(videoFieldName, chapter.video);
         return {
           ...chapter,
-          video: videoKey,
+          video: videoFieldName // Placeholder to match with uploaded file
         };
       }
 
-      return chapter; 
-    }),
+      return chapter;
+    })
   }));
 
-  formData.append("sections", JSON.stringify(sectionsCopy));
+  formData.append("sections", JSON.stringify(processedSections));
+
+  sections.forEach((section, sectionIndex) => {
+    section.chapters.forEach((chapter, chapterIndex) => {
+      if (chapter.type === "Video" && chapter.video instanceof File) {
+        formData.append(`video-${sectionIndex}-${chapterIndex}`, chapter.video);
+      }
+    });
+  });
 
   return formData;
 };
 
+export const validateVideo = (file: File) => {
+  const validFormats = ['video/mp4', 'video/webm', 'video/mov'];
+  const maxSize = 100 * 1024 * 1024;
 
-export const uploadAllVideos = async (
-  localSections: Section[],
-  courseId: string,
-  getUploadVideoUrl: any
-) => {
-  const updatedSections = localSections.map((section) => ({
-    ...section,
-    chapters: section.chapters.map((chapter) => ({
-      ...chapter,
-    })),
-  }));
-
-  for (let i = 0; i < updatedSections.length; i++) {
-    for (let j = 0; j < updatedSections[i].chapters.length; j++) {
-      const chapter = updatedSections[i].chapters[j];
-      if (chapter.video instanceof File && chapter.video.type === "video/mp4") {
-        try {
-          const updatedChapter = await uploadVideo(
-            chapter,
-            courseId,
-            updatedSections[i].sectionId,
-            getUploadVideoUrl
-          );
-          updatedSections[i].chapters[j] = updatedChapter;
-        } catch (error) {
-          console.error(
-            `Failed to upload video for chapter ${chapter.chapterId}:`,
-            error
-          );
-        }
-      }
-    }
+  if (!validFormats.includes(file.type)) {
+    toast.error('Invalid video format. Please use MP4, WebM, or MOV.');
+    return false;
   }
 
-  return updatedSections;
+  if (file.size > maxSize) {
+    toast.error('Video file is too large. Maximum size is 100MB.');
+    return false;
+  }
+
+  return true;
 };
-
-async function uploadVideo(
-  chapter: Chapter,
-  courseId: string,
-  sectionId: string,
-  getUploadVideoUrl: any
-) {
-  const file = chapter.video as File;
-
-  try {
-    const { uploadUrl, videoUrl } = await getUploadVideoUrl({
-      courseId,
-      sectionId,
-      chapterId: chapter.chapterId,
-      fileName: file.name,
-      fileType: file.type,
-    }).unwrap();
-
-    await fetch(uploadUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": file.type,
-      },
-      body: file,
-    });
-    toast.success(
-      `Video uploaded successfully for chapter ${chapter.chapterId}`
-    );
-
-    return { ...chapter, video: videoUrl };
-  } catch (error) {
-    console.error(
-      `Failed to upload video for chapter ${chapter.chapterId}:`,
-      error
-    );
-    throw error;
-  }
-}

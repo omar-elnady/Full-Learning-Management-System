@@ -36,7 +36,7 @@ declare global {
   }
 
   interface Course {
-    courseId: string;
+    _id: string;
     teacherId: string;
     teacherName: string;
     title: string;
@@ -102,12 +102,28 @@ declare global {
 
   interface Chapter {
     chapterId: string;
+    type: "Text" | "Quiz" | "Video";
     title: string;
     content: string;
-    video?: string | File;
+    video?: {
+      secure_url: string;
+      public_id: string;
+    } | File;
+    comments: Comment[];
     freePreview?: boolean;
-    type: "Text" | "Quiz" | "Video";
   }
+  interface VideoData {
+    secure_url: string;
+    public_id: string;
+  }
+  
+interface ChapterFormData {
+  type: "Text" | "Quiz" | "Video";
+  title: string;
+  content: string;
+  video?: File | VideoData;
+  freePreview?: boolean;
+}
 
   interface ChapterProgress {
     chapterId: string;

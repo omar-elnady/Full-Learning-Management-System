@@ -5,9 +5,9 @@ import DroppableComponent from '@/components/Droppable';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { centsToDollars, createCourseFormData, uploadAllVideos } from '@/lib/utils';
+import { centsToDollars, createCourseFormData } from '@/lib/utils';
 import { openSectionModal, setSections } from '@/state';
-import { useGetCourseQuery, useUpdateCourseMutation, useGetUploadVideoURLMutation } from '@/state/api';
+import { useGetCourseQuery, useUpdateCourseMutation } from '@/state/api';
 import { useAppDispatch, useAppSelector } from '@/state/redux';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, Plus } from 'lucide-react';
@@ -16,6 +16,7 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import ChapterModal from './ChapterModal';
 import SectionModal from './SectionModel';
+import { toast } from 'sonner';
 
 const CourseEditor = () => {
     const router = useRouter();
@@ -24,7 +25,6 @@ const CourseEditor = () => {
     const { data: course, isLoading, isError, refetch } = useGetCourseQuery(id);
     const [updateCourse] = useUpdateCourseMutation();
 
-    const [getUploadVideoUrl] = useGetUploadVideoURLMutation();
 
     // Upload  Video Functionality 
     const dispatch = useAppDispatch();
@@ -57,17 +57,17 @@ const CourseEditor = () => {
 
     const onSubmit = async (data: CourseFormData) => {
         try {
-            const updatedSections = await uploadAllVideos(
-                sections,
-                id,
-                getUploadVideoUrl
-            );
-            const formData = createCourseFormData(data, updatedSections);
+
+            const formData = createCourseFormData(data, sections);
+            for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+            }
             await updateCourse({
                 courseId: id,
                 formData,
             }).unwrap();
-
+            toast.success("Course updated successfully");
+            await refetch();
             refetch();
         } catch (error) {
             console.error("Failed to update course:", error);
@@ -86,7 +86,7 @@ const CourseEditor = () => {
             </div>
 
             <Form {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <form onSubmit={methods.handleSubmit(onSubmit)} encType="multipart/form-data">
                     <Header
                         title="Course Setup"
                         subtitle="Complete all fields and save your course"

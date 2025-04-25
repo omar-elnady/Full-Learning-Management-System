@@ -12,6 +12,8 @@ import {
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import { toast } from "sonner";
+
 
 const CoursesTeacherPage = () => {
   const router = useRouter();
@@ -39,26 +41,31 @@ const CoursesTeacherPage = () => {
   }, [courses, searchTerm, selectedCategory]);
 
   const handleCreateCourse = async () => {
-    if (!user) return;
+    if (!user) {
+      toast.error("You must be logged in to create a course");
+      return;
+    }
 
     const result = await createCourse({
       teacherId: user.id,
       teacherName: user.fullName || "Unknown Teacher",
     }).unwrap();
-    router.push(`/dashboard/teacher/courses/${result.courseId}`, {
-        scroll: false,
+    router.push(`/dashboard/teacher/courses/${result._id}`, {
+      scroll: false,
     });
+    toast.success("Course created successfully");
+
   };
 
   const handleEdit = (course: Course) => {
-    router.push(`/dashboard/teacher/courses/${course.courseId}`, {
-        scroll: false,
+    router.push(`/dashboard/teacher/courses/${course._id}`, {
+      scroll: false,
     });
   };
 
   const handleDelete = async (course: Course) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
-      await deleteCourse(course.courseId).unwrap();
+      await deleteCourse(course._id).unwrap();
     }
   };
 
@@ -86,7 +93,7 @@ const CoursesTeacherPage = () => {
       <div className="teacher-courses__grid">
         {filteredCourses?.map((course) => (
           <TeacherCourseCard
-            key={course.courseId}
+            key={course?._id}
             course={course}
             onEdit={handleEdit}
             onDelete={handleDelete}
