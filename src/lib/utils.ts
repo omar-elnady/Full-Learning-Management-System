@@ -287,46 +287,41 @@ export const customDataGridStyles = {
     color: "#6e6e6e",
   },
 };
+
 export const createCourseFormData = (
   data: CourseFormData,
   sections: Section[]
 ): FormData => {
   const formData = new FormData();
+  
+  // Add basic course data
   formData.append("title", data.courseTitle);
-  formData.append("description", data.courseDescription);
+  formData.append("description", data.courseDescription || '');
   formData.append("category", data.courseCategory);
   formData.append("price", data.coursePrice.toString());
   formData.append("status", data.courseStatus ? "Published" : "Draft");
 
-
+  // Create a deep copy of sections for modification
   const processedSections = sections.map(section => ({
     ...section,
     chapters: section.chapters.map(chapter => {
-      // Don't modify existing video URLs
-      if (chapter.video && typeof chapter.video === 'object' && 'secure_url' in chapter.video) {
-        return chapter;
-      }
-
-      // For new video files, create a placeholder
+      // If it's a File object, don't include it in the JSON
       if (chapter.video instanceof File) {
-        const videoFieldName = `video-${section.sectionId}-${chapter.chapterId}`;
-        formData.append(videoFieldName, chapter.video);
         return {
           ...chapter,
-          video: videoFieldName // Placeholder to match with uploaded file
+          video: null 
         };
       }
-
       return chapter;
     })
   }));
 
   formData.append("sections", JSON.stringify(processedSections));
 
-  sections.forEach((section, sectionIndex) => {
-    section.chapters.forEach((chapter, chapterIndex) => {
-      if (chapter.type === "Video" && chapter.video instanceof File) {
-        formData.append(`video-${sectionIndex}-${chapterIndex}`, chapter.video);
+  sections.forEach(section => {
+    section.chapters.forEach(chapter => {
+      if (chapter.video instanceof File) {
+        formData.append(`video_${chapter.chapterId}`, chapter.video);
       }
     });
   });

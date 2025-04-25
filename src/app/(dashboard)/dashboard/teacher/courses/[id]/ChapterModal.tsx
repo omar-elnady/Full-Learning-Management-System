@@ -49,7 +49,7 @@ const ChapterModal = () => {
       methods.reset({
         title: chapter.title,
         content: chapter.content,
-        video: chapter.video || undefined,
+        video:  undefined,
       });
     } else {
       methods.reset({
@@ -98,7 +98,6 @@ const ChapterModal = () => {
         })
       );
     }
-
     toast.success(
       `Chapter added/updated successfully but you need to save the course to apply the changes`
     );

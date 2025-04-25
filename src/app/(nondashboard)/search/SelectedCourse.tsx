@@ -26,7 +26,7 @@ const SelectedCourse = ({ course, handleEnrollNow }: SelectedCourseProps) => {
                     <span className='selected-course__price'>
                         {formatPrice(course.price)}
                     </span>
-                    <Button onClick={() => handleEnrollNow(course.courseId)}
+                    <Button onClick={() => handleEnrollNow(course._id)}
                         className='bg-primary-750 hover:bg-primary-700 '> Enroll Now </Button>
                 </div>
             </div>

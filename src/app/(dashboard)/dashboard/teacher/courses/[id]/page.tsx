@@ -56,12 +56,12 @@ const CourseEditor = () => {
 
 
     const onSubmit = async (data: CourseFormData) => {
+
         try {
 
             const formData = createCourseFormData(data, sections);
-            for (let pair of formData.entries()) {
-                console.log(pair[0], pair[1]);
-            }
+            
+         
             await updateCourse({
                 courseId: id,
                 formData,

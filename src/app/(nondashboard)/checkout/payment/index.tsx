@@ -21,13 +21,16 @@ const PaymentPageContent = () => {
     const { signOut } = useClerk()
 
 
-    const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL ? `https://${process.env.NEXT_PUBLIC_LOCAL_URL}`
+    const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL ? `${process.env.NEXT_PUBLIC_LOCAL_URL}`
         : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : undefined;
+
     const handleSubmit = async (e: React.FormEvent) => {
+
         e.preventDefault();
         if (!stripe || !elements) {
             return toast.error("Stripe service is not available ")
         }
+        const loadingToast = toast.loading("Processing payment...");
         const result = await stripe.confirmPayment({
             elements,
             confirmParams: {
@@ -35,6 +38,12 @@ const PaymentPageContent = () => {
             },
             redirect: "if_required"
         })
+        toast.dismiss(loadingToast);
+
+        if (result.error) {
+            toast.error(result.error.message || "Payment failed");
+            return;
+        }
         if (result.paymentIntent?.status === "succeeded") {
             const transactionData: Partial<Transaction> = {
                 transactionId: result.paymentIntent.id,
@@ -44,7 +53,16 @@ const PaymentPageContent = () => {
                 amount: course?.price || 0,
             };
 
-            await createTransaction(transactionData), navigateToStep(3);
+            try {
+                await createTransaction(transactionData).unwrap();
+                toast.success("Payment successful!");
+                navigateToStep(3);
+            } catch (error: any) {
+                console.error("Transaction creation failed:", error);
+                toast.error("Payment successful but enrollment failed. Please contact support.");
+            }
+        } else {
+            toast.error("Payment not completed");
         }
     }
     const handleSignOutAndNavigate = async () => {
