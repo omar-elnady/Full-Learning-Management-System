@@ -3,6 +3,7 @@ import CourseModel from "../../../../DB/models/courseModel";
 import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "@clerk/express";
 import cloudinary from "../../../utils/cloudinary";
+import fs from "fs";
 
 
 export const listCourses = async (
@@ -85,7 +86,10 @@ export const updateCourse = async (
   const { courseId } = req.params;
   const updateData = { ...req.body };
   const { userId } = getAuth(req);
+  const files = req.files as Express.Multer.File[];
 
+
+  
   try {
     const course = await CourseModel.findById(courseId);
     if (!course) {
@@ -97,6 +101,7 @@ export const updateCourse = async (
       res.status(403).json({ message: "Not authorized to update this course" });
       return;
     }
+    
 
     if (updateData.price) {
       const price = parseInt(updateData.price);
@@ -120,18 +125,24 @@ export const updateCourse = async (
         ...section,
         sectionId: section.sectionId || uuidv4(),
         chapters: await Promise.all(section.chapters.map(async (chapter: any, chapterIndex: number) => {
-          let videoData = {
-            secure_url: "",
-            public_id: "",
-          };
 
-          if (chapter.type === "Video" && chapter.video && typeof chapter.video === 'object') {
+          const videoFile = files?.find(
+            (file) => file.fieldname === `video_${chapter.chapterId}`
+          );
+
+          let videoData = chapter.video;
+
+          if ( videoFile) {
             try {
-              const result = await cloudinary.uploader.upload(chapter.video, {
+              console.log(`Uploading video for chapter ${chapter.title}...`);
+
+              const result = await cloudinary.uploader.upload(videoFile.path, {
                 folder: `courses/${courseId}/sections/${sectionIndex}/chapters/${chapterIndex}`,
                 resource_type: 'video',
                 allowed_formats: ['mp4', 'webm', 'mov'],
               });
+              console.log("Video upload result:", result);
+              fs.unlinkSync(videoFile.path);
 
               chapter.video = {
                 secure_url: result.secure_url,

@@ -11,7 +11,7 @@ router.post("/", requireAuth(), CourseController.createCourse);
 router.put(
   "/:courseId",
   requireAuth(),
-  fileUplode(fileVaildation.video).array('videos', 5),
+  fileUplode(fileVaildation.video).any(),
   CourseController.updateCourse
 );
 router.delete("/:courseId", requireAuth(), CourseController.deleteCourse);

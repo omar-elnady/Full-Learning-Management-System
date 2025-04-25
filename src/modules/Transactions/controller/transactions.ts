@@ -75,6 +75,7 @@ export const createTransaction = async (
   req: Request,
   res: Response
 ): Promise<void> => {
+
   const { userId, courseId, transactionId, amount, paymentProvider } = req.body;
 
   try {
