@@ -2,6 +2,7 @@ import cors from 'cors';
 import helmet from 'helmet'
 import morgan from 'morgan';
 import { Express } from 'express';
+import connectDB from '../DB/Connection/connection'
 /* Routers Import */
 import CoursesRouter from './modules/Courses/Courses.router'
 import UserSettingsRouter from './modules/UserClerk/userClerk.router'
@@ -10,6 +11,7 @@ import TransactionRouter from './modules/Transactions/transactions.router'
 import userCourseProgressRoute from './modules/UserCoursesProgress/userCoursesProgress.router'
 
 const bootstarp = (app: Express, express: typeof import("express")) => {
+    connectDB()
     app.use(morgan("common"));
     app.use(cors());                   
 app.use(helmet());                  
