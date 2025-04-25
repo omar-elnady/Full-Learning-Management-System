@@ -9,6 +9,7 @@ export default function DashboardPage() {
     const router = useRouter();
     const { user, isLoaded } = useUser();
 
+    
     useEffect(() => {
         if (!isLoaded) return;
 
@@ -18,13 +19,11 @@ export default function DashboardPage() {
         }
 
         const userType = user.publicMetadata?.userType as string;
-        
+        console.log(userType);
         if (userType === "teacher") {
             router.replace("/dashboard/teacher/courses");
-        } else if (userType === "user") {
+        }  else {
             router.replace("/dashboard/user/courses");
-        } else {
-            router.replace("/setup");
         }
     }, [isLoaded, user, router]);
 
