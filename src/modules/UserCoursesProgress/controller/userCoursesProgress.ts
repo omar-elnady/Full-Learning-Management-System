@@ -2,8 +2,8 @@ import { mergeSections, calculateOverallProgress } from './../../../utils/utils'
   import { Request, Response } from "express";
   import { getAuth } from "@clerk/express";
 
-  import UserCourseProgressModel from "../../../../DB/models/userCourseProgressModel";
-  import CourseModel from "../../../../DB/models/courseModel";
+  import UserCourseProgressModel from "../../../DB/models/userCourseProgressModel";
+  import CourseModel from "../../../DB/models/courseModel";
 import mongoose from 'mongoose';
 
   export const getUserEnrolledCourses = async (

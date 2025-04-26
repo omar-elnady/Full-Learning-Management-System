@@ -5,11 +5,12 @@
     "moduleResolution": "node",          
     "esModuleInterop": true,             
     "strict": true,                       
-    "outDir": "./dist",                  
+    "outDir": "./dist",    
+    "rootDir": "./src",
     "resolveJsonModule": true,           
     "skipLibCheck": true,                
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*",  "DB/models" , "DB/Connection"],
+  "include": ["src/**/*",  "src/DB/models" , "src/DB/Connection"],
   "exclude": ["node_modules", "dist"]
 }

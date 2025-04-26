@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import CourseModel from "../../../../DB/models/courseModel";
+import CourseModel from "../../../DB/models/courseModel";
 import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "@clerk/express";
 import cloudinary from "../../../utils/cloudinary";

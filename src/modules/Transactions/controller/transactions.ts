@@ -1,9 +1,9 @@
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-import Course from "../../../../DB/models/courseModel";
-import Transaction from "../../../../DB/models/transactionModel";
-import UserCourseProgress from "../../../../DB/models/userCourseProgressModel";
+import Course from "../../../DB/models/courseModel";
+import Transaction from "../../../DB/models/transactionModel";
+import UserCourseProgress from "../../../DB/models/userCourseProgressModel";
 
 dotenv.config();
 
