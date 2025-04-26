@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { Section, Chapter } from "../types/course";
 
 interface InitialStateTypes {
   courseEditor: {

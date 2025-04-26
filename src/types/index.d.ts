@@ -113,11 +113,7 @@ declare global {
     comments: Comment[];
     freePreview?: boolean;
   }
-  interface VideoData {
-    secure_url: string;
-    public_id: string;
-  }
-  
+
 interface ChapterFormData {
   type: "Text" | "Quiz" | "Video";
   title: string;
