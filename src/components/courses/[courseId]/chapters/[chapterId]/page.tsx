@@ -78,7 +78,11 @@ const Course = () => {
             {currentChapter?.video ? (
               <ReactPlayer
                 ref={playerRef}
-                url={currentChapter.video as string}
+                url={currentChapter.video instanceof File
+                  ? URL.createObjectURL(currentChapter.video)
+                  : "secure_url" in currentChapter.video
+                    ? currentChapter.video.secure_url
+                    : ""}
                 controls
                 width="100%"
                 height="100%"
