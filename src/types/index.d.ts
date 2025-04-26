@@ -99,16 +99,17 @@ declare global {
     text: string;
     timestamp: string;
   }
+  interface VideoData {
+    secure_url: string;
+    public_id: string;
+  }
 
   interface Chapter {
     chapterId: string;
     type: "Text" | "Quiz" | "Video";
     title: string;
     content: string;
-    video?: {
-      secure_url: string;
-      public_id: string;
-    } | File;
+    video?: VideoData | File;
     comments: Comment[];
     freePreview?: boolean;
   }
