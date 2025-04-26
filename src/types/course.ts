@@ -3,7 +3,7 @@ export interface VideoData {
     public_id: string;
   }
   
-  export interface Comment {
+  export interface CourseComment {
     commentId: string;
     userId: string;
     text: string;
@@ -16,7 +16,7 @@ export interface VideoData {
     title: string;
     content: string;
     video?: VideoData | File;
-    comments: Comment[];
+    comments: CourseComment[];
     freePreview?: boolean;
   }
   

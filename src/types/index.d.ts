@@ -93,7 +93,7 @@ declare global {
     isOwner: boolean;
   }
 
-  interface Comment {
+  interface CourseComment {
     commentId: string;
     userId: string;
     text: string;
@@ -110,7 +110,7 @@ declare global {
     title: string;
     content: string;
     video?: VideoData | File;
-    comments: Comment[];
+    comments: CourseComment[];
     freePreview?: boolean;
   }
 
