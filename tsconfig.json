@@ -11,6 +11,6 @@
     "skipLibCheck": true,                
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*",  "src/DB/models" , "src/DB/Connection"],
+"include": ["src/**/*"] ,
   "exclude": ["node_modules", "dist"]
 }
