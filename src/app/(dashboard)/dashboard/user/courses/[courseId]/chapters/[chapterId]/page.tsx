@@ -77,8 +77,12 @@ const Course = () => {
             {currentChapter?.video ? (
               <ReactPlayer
                 ref={playerRef}
-                url={typeof currentChapter.video === 'object' && 'secure_url' in currentChapter.video
-                  ? currentChapter.video.secure_url
+                url={currentChapter.video
+                  ? (currentChapter.video instanceof File
+                    ? URL.createObjectURL(currentChapter.video)
+                    : 'secure_url' in currentChapter.video
+                      ? currentChapter.video.secure_url
+                      : '')
                   : ''}
                 controls
                 width="100%"
