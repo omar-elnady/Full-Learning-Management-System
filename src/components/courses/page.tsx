@@ -44,13 +44,13 @@ const Courses = () => {
     ) {
       const firstChapter = course.sections[0].chapters[0];
       router.push(
-        `/dashboard/user/courses/${course.courseId}/chapters/${firstChapter.chapterId}`,
+        `/dashboard/user/courses/${course._id}/chapters/${firstChapter.chapterId}`,
         {
           scroll: false,
         }
       );
     } else {
-      router.push(`/dashboard/user/courses/${course.courseId}`, {
+      router.push(`/dashboard/user/courses/${course._id}`, {
         scroll: false,
       });
     }
@@ -71,7 +71,7 @@ const Courses = () => {
       <div className="user-courses__grid">
         {filteredCourses.map((course) => (
           <CourseCard
-            key={course.courseId}
+            key={course._id}
             course={course}
             onGoToCourse={handleGoToCourse}
           />
