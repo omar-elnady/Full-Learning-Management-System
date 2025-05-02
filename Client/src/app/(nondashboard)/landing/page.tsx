@@ -21,7 +21,8 @@ const LoadingSkeleton = () => {
           <Skeleton className="landing-skeleton__button" />
         </div>
         <Skeleton className="landing-skeleton__hero-image " />
-      </div>
+
+        < Skeleton className="landing-skeleton__hero-image" />      </div>
       <div className="landing-skeleton__featured">
         <Skeleton className="landing-skeleton__featured-title" />
         <Skeleton className="landing-skeleton__featured-description" />
@@ -54,9 +55,9 @@ const Landing = () => {
   ];
   const { data: courses, isLoading, isError } = useGetCoursesQuery({});
   const handleCourseClick = (courseId: string) => {
-    router.push(`/search?id=${courseId}` , {
+    router.push(`/search?id=${courseId}`, {
       scroll: false,
-  });
+    });
   };
   const currentImage = useCarousel({ totalImages: 3 });
 
@@ -72,37 +73,55 @@ const Landing = () => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="landing__hero "
+        className="landing__hero"
       >
-        <div className="landing__hero-content">
-          <h1 className="landing__title">Courses</h1>
-          <p className="landing__description">
-            This is the list of the courses you can enroll in.
-            <br />
-            Courses when you need them and want them .
-          </p>
-          <div className="landing__cta">
-            <Link href="/search"  scroll={false}>
-              <div className="landing__cta-button">Search for Courses</div>
-            </Link>
-          </div>
-        </div>
-        <div className="landing__hero-images">
+        <div className="landing__hero-image-mobile md:hidden absolute inset-0 z-0">
           {Images.map((src, index) => (
             <Image
               src={src}
               key={src}
-              alt={`Hero Bannar ${index + 1}`}
+              alt={`Hero Banner ${index + 1}`}
               fill
               priority={index === currentImage}
-              sizes="(max-width: 768px) 100vw ,(max-width: 1200px) 55vw , 33vw , "
-              className={`landing__hero-image ${
-                index === currentImage ? "landing__hero-image--active" : ""
-              }`}
+              sizes="(max-width: 768px) 100vw"
+              className={`object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100" : "opacity-0"}`}
+            />
+          ))}
+          <div className="absolute inset-0 bg-black opacity-80 rounded-lg" />
+        </div>
+
+
+        {/* Content */}
+        <div className="landing__hero-content z-10 relative w-full h-full flex flex-col justify-center">
+          <h1 className="landing__title">Courses</h1>
+          <p className="landing__description">
+            This is the list of the courses you can enroll in.
+            <br />
+            Courses when you need them and want them.
+          </p>
+          <div className="landing__cta">
+            <Link href="/search" scroll={false}>
+              <div className="landing__cta-button">Search for Courses</div>
+            </Link>
+          </div>
+        </div>
+
+        <div className="landing__hero-images hidden md:block md:basis-1/2 h-full">
+          {Images.map((src, index) => (
+            <Image
+              src={src}
+              key={src}
+              alt={`Hero Banner ${index + 1}`}
+              fill
+              priority={index === currentImage}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw, 33vw"
+              className={` object-cover w-full h-full rounded-r-lg  landing__hero-image ${index === currentImage ? "landing__hero-image--active" : ""
+                }`}
             />
           ))}
         </div>
       </motion.div>
+
       <motion.div
         className="landing__featured"
         initial={{ y: 20, opacity: 0 }}

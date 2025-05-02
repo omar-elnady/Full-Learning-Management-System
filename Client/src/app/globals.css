@@ -228,11 +228,12 @@ input[type="color"] {
 }
 
 .landing__hero {
-  @apply flex justify-between items-center mt-12 h-[500px] rounded-lg bg-customgreys-secondarybg;
+  @apply relative flex justify-between overflow-hidden items-center mt-12 h-[500px] rounded-lg bg-customgreys-secondarybg;
 }
 
+
 .landing__hero-content {
-  @apply basis-1/2 px-16 mx-auto;
+  @apply rounded-lg  w-full md:basis-1/2 px-16 mx-auto;
 }
 
 .landing__title {
@@ -248,11 +249,11 @@ input[type="color"] {
 }
 
 .landing__cta-button {
-  @apply bg-primary-700 hover:bg-primary-600 px-4 py-2 rounded-md;
+  @apply bg-blue-600 hover:bg-primary-700 px-4 py-2 rounded-md;
 }
 
 .landing__hero-images {
-  @apply basis-1/2 h-full relative overflow-hidden rounded-r-lg;
+  @apply basis-1/2 h-full relative overflow-hidden rounded-lg;
 }
 
 .landing__hero-image {
@@ -293,11 +294,11 @@ input[type="color"] {
 }
 
 .landing-skeleton__hero {
-  @apply flex justify-between items-center mt-12 h-[500px] rounded-lg bg-customgreys-secondarybg;
+  @apply   flex justify-between items-center mt-12 h-[500px] rounded-lg bg-customgreys-secondarybg;
 }
 
 .landing-skeleton__hero-content {
-  @apply basis-1/2 px-16 mx-auto;
+  @apply  basis-1/2 px-16 mx-auto;
 }
 
 .landing-skeleton__title {
@@ -316,9 +317,12 @@ input[type="color"] {
   @apply w-40 h-10;
 }
 
+
+
 .landing-skeleton__hero-image {
-  @apply basis-1/2 h-full rounded-r-lg;
+  @apply  basis-1/2 h-full rounded-r-lg hidden md:block;
 }
+
 
 .landing-skeleton__featured {
   @apply mx-auto py-12 mt-10;

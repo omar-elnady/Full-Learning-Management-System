@@ -14,11 +14,11 @@ export const useCarousel = ({
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % totalImages);
-            console.log("Current Image:", currentImage); 
         }, interval);
 
         return () => clearInterval(timer);
     }, [totalImages, interval]);
 
+ 
     return currentImage;
 };
