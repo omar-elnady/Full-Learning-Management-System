@@ -1,9 +1,13 @@
 import AccordionSections from '@/components/AccordionSections'
 import { Button } from '@/components/ui/button'
 import { formatPrice } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const SelectedCourse = ({ course, handleEnrollNow }: SelectedCourseProps) => {
+const SelectedCourse = ({ course, handleEnrollNow, enrolledCourses }: SelectedCourseProps) => {
+    const router = useRouter();
+    const isEnrolled = enrolledCourses?.some(c => c._id === course._id);
+
     return (
         <div className='selected-course'>
             <div>
@@ -26,8 +30,28 @@ const SelectedCourse = ({ course, handleEnrollNow }: SelectedCourseProps) => {
                     <span className='selected-course__price'>
                         {formatPrice(course.price)}
                     </span>
-                    <Button onClick={() => handleEnrollNow(course._id)}
-                        className='bg-primary-750 hover:bg-primary-700 '> Enroll Now </Button>
+                    {isEnrolled ? (
+                        <Button
+                            onClick={() => {
+                                const firstChapter = course.sections?.[0]?.chapters?.[0];
+                                if (firstChapter) {
+                                    router.push(`/dashboard/user/courses/${course._id}/chapters/${firstChapter.chapterId}`);
+                                } else {
+                                    alert("Course has no content yet.");
+                                }
+                            }}
+                            className='bg-green-700 hover:bg-green-600'
+                        >
+                            Go to Course
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => handleEnrollNow(course._id)}
+                            className='bg-primary-750 hover:bg-primary-700'
+                        >
+                            Enroll Now
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>

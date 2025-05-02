@@ -1,6 +1,6 @@
 "use client"
 import Loading from '@/components/Loading';
-import { useGetCoursesQuery } from '@/state/api';
+import { useGetCoursesQuery, useGetUserEnrolledCoursesQuery } from '@/state/api';
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -14,6 +14,12 @@ const Search = () => {
     const id = searchParams.get("id");
     const { data: courses, isLoading, isError } = useGetCoursesQuery({});
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
+    const {
+        data: enrolledCourses = [],
+    } = useGetUserEnrolledCoursesQuery(user?.id ?? "", {
+        skip: !isLoaded || !user,
+    });
+
 
     useEffect(() => {
         if (courses)
@@ -50,7 +56,7 @@ const Search = () => {
             className='search'
         >
             <h1 className='search__title'>List of available courses</h1>
-            <h2 className='search__subtitle'>{courses.length} Courses available</h2>
+            <h2 className='search__subtitle'>{courses.length}  Courses available</h2>
             <div className="search__content">
                 <motion.div
                     initial={{ y: 40, opacity: 0 }}
@@ -74,6 +80,7 @@ const Search = () => {
                 >
                     <SelectedCourse
                         course={selectedCourse}
+                        enrolledCourses={enrolledCourses}
                         handleEnrollNow={handleEnrollNow}
                     />
 

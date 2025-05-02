@@ -176,6 +176,7 @@ interface ChapterFormData {
 
   interface SelectedCourseProps {
     course: Course;
+    enrolledCourses : Course[] ;
     handleEnrollNow: (courseId: string) => void;
   }
 
