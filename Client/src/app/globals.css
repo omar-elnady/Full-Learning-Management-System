@@ -472,7 +472,7 @@ input[type="color"] {
 }
 
 .billing__container {
-  @apply space-y-6 bg-customgreys-secondarybg;
+  @apply space-y-6 bg-transparent;
 }
 
 .billing__title {
@@ -542,7 +542,7 @@ input[type="color"] {
 
 /* Dashboard Layout */
 .dashboard {
-  @apply min-h-screen w-full bg-customgreys-primarybg flex;
+  @apply min-h-screen w-full  flex;
 }
 
 .dashboard__content {
@@ -550,7 +550,7 @@ input[type="color"] {
 }
 
 .dashboard__main {
-  @apply flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-customgreys-secondarybg;
+  @apply flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-black/40;
 }
 
 .dashboard__main--not-course {

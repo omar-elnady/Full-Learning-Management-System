@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     return (
         <SidebarProvider>
-            <div className="dashboard">
+            <div className="dashboard ">
                 <AppSidebar />
                 <div className="dashboard__content">
                     {courseId && <ChaptersSidebar />}

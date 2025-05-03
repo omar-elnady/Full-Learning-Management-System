@@ -12,30 +12,32 @@ import {
 } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
-const Logo = (userRole: any) => (
+const Logo = ({ user, userRole }: any) => (
     <div className="flex items-center gap-2">
         <Link href="/" scroll={false} className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center shadow-md">
                 <BookOpen className="h-5 w-5 text-white" />
             </div>
-            <span className="font-bold text-xl hidden sm:block text-blue-600">
+            <span className={`font-bold text-xl ${user ? "hidden md:block" : "block"} text-blue-600`}>
                 Learning
             </span>
         </Link>
-        <div className="sm:hidden">
-            <Link
-                href={userRole === "teacher" ? "/dashboard/teacher/courses" : "/dashboard/user/courses"}
-                scroll={false}
-                className="flex items-center gap-3 px-6 py-3 bg-blue-500 text-white text-xs leading-4 font-bold uppercase rounded-lg shadow-md shadow-blue-500/20 hover:bg-white-100 hover:text-black hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-500 ease-in-out group"
-            >
-                My Courses
-                <div className="flex justify-center items-center">
-                    <div className="w-[10px] h-[2px] bg-blue-500 relative transition-all duration-200 group-hover:bg-black mt-[1px]">
-                        <span className="absolute top-[-3px] right-[3px] border-solid border-white group-hover:border-black border-t-0 border-r-[2px] border-b-[2px] border-l-0 w-[6px] h-[6px] rotate-[-45deg] transition-all duration-200 group-hover:right-0" />
+        <SignedIn>
+            <div className="md:hidden">
+                <Link
+                    href={userRole === "teacher" ? "/dashboard/teacher/courses" : "/dashboard/user/courses"}
+                    scroll={false}
+                    className="flex items-center gap-3 px-6 py-3 bg-blue-500 text-white text-xs leading-4 font-bold uppercase rounded-lg shadow-md shadow-blue-500/20 hover:bg-white-100 hover:text-black hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-500 ease-in-out group"
+                >
+                    My Courses
+                    <div className="flex justify-center items-center">
+                        <div className="w-[10px] h-[2px] bg-blue-500 relative transition-all duration-200 group-hover:bg-black mt-[1px]">
+                            <span className="absolute top-[-3px] right-[3px] border-solid border-white group-hover:border-black border-t-0 border-r-[2px] border-b-[2px] border-l-0 w-[6px] h-[6px] rotate-[-45deg] transition-all duration-200 group-hover:right-0" />
+                        </div>
                     </div>
-                </div>
-            </Link>
-        </div>
+                </Link>
+            </div>
+        </SignedIn>
     </div>
 );
 
@@ -49,7 +51,7 @@ export const NonDashboardNavbar = () => {
         <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-b-gray-800 shadow-sm">
             <div className="container flex h-16 items-center justify-between">
                 <div className="flex items-center gap-10">
-                    <Logo userRole={userRole} />
+                    <Logo userRole={userRole} user={user || null} />
                     <Link
                         href="/search"
                         className="items-center justify-center hidden md:flex"
@@ -127,6 +129,15 @@ export const NonDashboardNavbar = () => {
                 {/* Mobile Navigation Toggle */}
                 {isMobile && (
                     <div className="flex md:hidden items-center">
+                        <SignedOut>
+                            <Link
+                                href="/signin"
+                                scroll={false}
+                                className="flex items-center gap-3 px-6 py-3 bg-blue-500 text-white text-xs leading-4 font-bold uppercase rounded-lg shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-500 ease-in-out focus:opacity-85 active:opacity-85 focus:shadow-none active:shadow-none select-none"
+                            >
+                                Log in
+                            </Link>
+                        </SignedOut>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -147,27 +158,25 @@ export const NonDashboardNavbar = () => {
 
             {/* Mobile Menu */}
             {isMobile && isMenuOpen && (
-                <div className="container py-3 md:hidden space-y-2">
+                <div className="container py-3 md:hidden space-y-4">
                     <Link href="/search">
-                        <Button className="flex items-center gap-2 px-10 py-3 text-customgreys-dirtyGrey hover:text-white-50 bg-customgreys-secondarybg hover:bg-gray-800 rounded-xl font-semibold text-sm shadow-lg transition-transform duration-300 hover:scale-105 active:scale-95">
+                        <Button className="w-full flex items-center gap-2 px-10 py-3 text-customgreys-dirtyGrey hover:text-white-50 bg-customgreys-secondarybg hover:bg-gray-800 rounded-xl font-semibold text-sm shadow-lg transition-transform duration-300 hover:scale-105 active:scale-95">
                             <span>Search Courses</span>
                             <Search className="w-5 h-5" />
                         </Button>
                     </Link>
                     <SignedOut>
                         <Link
-                            href="/signin"
-                            scroll={false}
-                            className="text-white hover:text-blue-100 px-4 py-2 rounded border border-white/30 transition-colors block"
-                        >
-                            Log In
-                        </Link>
-                        <Link
                             href="/signup"
                             scroll={false}
-                            className="bg-white text-blue-600 hover:bg-blue-100 px-4 py-2 rounded transition-colors block"
+                            className="flex items-center gap-3 px-6 py-3 bg-blue-500 text-white text-xs leading-4 font-bold uppercase rounded-lg shadow-md shadow-blue-500/20 hover:bg-white-100 hover:text-black hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-500 ease-in-out group"
                         >
-                            Sign Up
+                            Sign up
+                            <div className="flex justify-center items-center">
+                                <div className="w-[10px] h-[2px] bg-blue-500 relative transition-all duration-200 group-hover:bg-black mt-[1px]">
+                                    <span className="absolute top-[-3px] right-[3px] border-solid border-white group-hover:border-black border-t-0 border-r-[2px] border-b-[2px] border-l-0 w-[6px] h-[6px] rotate-[-45deg] transition-all duration-200 group-hover:right-0" />
+                                </div>
+                            </div>
                         </Link>
                     </SignedOut>
                 </div>
