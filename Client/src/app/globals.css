@@ -149,7 +149,7 @@ input[type="color"] {
 
 /* Selected Course Component */
 .selected-course {
-  @apply overflow-hidden py-9 px-9;
+  @apply overflow-hidden py-9 px-9  transition-all duration-300;
 }
 
 .selected-course__title {

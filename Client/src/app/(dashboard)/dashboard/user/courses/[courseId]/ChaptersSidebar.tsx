@@ -306,3 +306,4 @@ const Chapter = ({
 };
 
 export default ChaptersSidebar;
+
