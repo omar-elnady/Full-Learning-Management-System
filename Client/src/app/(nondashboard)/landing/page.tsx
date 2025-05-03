@@ -21,8 +21,8 @@ const LoadingSkeleton = () => {
           <Skeleton className="landing-skeleton__button" />
         </div>
         <Skeleton className="landing-skeleton__hero-image " />
-
-        < Skeleton className="landing-skeleton__hero-image" />      </div>
+        <Skeleton className="landing-skeleton__hero-image" />{" "}
+      </div>
       <div className="landing-skeleton__featured">
         <Skeleton className="landing-skeleton__featured-title" />
         <Skeleton className="landing-skeleton__featured-description" />
@@ -84,12 +84,13 @@ const Landing = () => {
               fill
               priority={index === currentImage}
               sizes="(max-width: 768px) 100vw"
-              className={`object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100" : "opacity-0"}`}
+              className={`object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${
+                index === currentImage ? "opacity-100" : "opacity-0"
+              }`}
             />
           ))}
           <div className="absolute inset-0 bg-black opacity-80 rounded-lg" />
         </div>
-
 
         {/* Content */}
         <div className="landing__hero-content z-10 relative w-full h-full flex flex-col justify-center">
@@ -115,8 +116,9 @@ const Landing = () => {
               fill
               priority={index === currentImage}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw, 33vw"
-              className={` object-cover w-full h-full rounded-r-lg  landing__hero-image ${index === currentImage ? "landing__hero-image--active" : ""
-                }`}
+              className={` object-cover w-full h-full rounded-r-lg  landing__hero-image ${
+                index === currentImage ? "landing__hero-image--active" : ""
+              }`}
             />
           ))}
         </div>
@@ -146,7 +148,7 @@ const Landing = () => {
           {courses &&
             courses?.slice(0, 4).map((course, index) => (
               <motion.div
-                key={course._id}
+                key={course?._id || index}
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}

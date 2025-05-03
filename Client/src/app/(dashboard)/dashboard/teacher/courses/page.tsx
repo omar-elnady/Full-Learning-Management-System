@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-
 const CoursesTeacherPage = () => {
   const router = useRouter();
   const { user } = useUser();
@@ -54,7 +53,6 @@ const CoursesTeacherPage = () => {
       scroll: false,
     });
     toast.success("Course created successfully");
-
   };
 
   const handleEdit = (course: Course) => {
@@ -91,14 +89,13 @@ const CoursesTeacherPage = () => {
         onCategoryChange={setSelectedCategory}
       />
       <div className="teacher-courses__grid">
-        {filteredCourses?.map((course) => (
+        {filteredCourses?.map((course, index) => (
           <TeacherCourseCard
-            key={course?._id}
+            key={course?._id || index}
             course={course}
             onEdit={handleEdit}
             onDelete={handleDelete}
             isOwner={user?.id === course.teacherId}
-
           />
         ))}
       </div>

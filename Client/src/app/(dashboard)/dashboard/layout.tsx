@@ -17,9 +17,11 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { user, isLoaded } = useUser();
   const [courseId, setCourseId] = useState<string | null>(null);
-  const isCoursePage = /^\/user\/courses\/[^\/]+(?:\/chapters\/[^\/]+)?$/.test(
-    pathname
-  );
+  const isCoursePage =
+    /^\/dashboard\/user\/courses\/[^\/]+(?:\/chapters\/[^\/]+)?$/.test(
+      pathname
+    );
+
   const router = useRouter();
 
   useEffect(() => {

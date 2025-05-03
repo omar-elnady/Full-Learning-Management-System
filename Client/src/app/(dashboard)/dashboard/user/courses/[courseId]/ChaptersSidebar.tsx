@@ -16,6 +16,7 @@ const ChaptersSidebar = () => {
   const router = useRouter();
   const { setOpen } = useSidebar();
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+  console.log({ user, course, userProgress, chapterId, courseId, isLoading });
 
   const {
     user,
@@ -31,7 +32,7 @@ const ChaptersSidebar = () => {
 
   useEffect(() => {
     setOpen(false);
-  }, []); 
+  }, []);
 
   if (isLoading) return <Loading />;
   if (!user) return <div>Please sign in to view course progress.</div>;
@@ -306,4 +307,3 @@ const Chapter = ({
 };
 
 export default ChaptersSidebar;
-

@@ -69,7 +69,7 @@ const Search = () => {
         >
           {courses.map((course, index) => (
             <CourseCardSearch
-              key={course._id}
+              key={course?._id || index}
               isSelected={selectedCourse?._id === course._id}
               course={course}
               onClick={() => handleCourseSelect(course)}

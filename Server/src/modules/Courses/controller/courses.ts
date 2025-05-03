@@ -5,7 +5,6 @@ import { getAuth } from "@clerk/express";
 import cloudinary from "../../../utils/cloudinary";
 import fs from "fs";
 
-
 export const listCourses = async (
   req: Request,
   res: Response,
@@ -57,7 +56,8 @@ export const createCourse = async (
       return;
     }
 
-    const newCourse = new CourseModel({
+    const newCourse = await CourseModel.create({
+      courseId: 100,
       teacherId,
       teacherName,
       title: "Untitled Course",
@@ -71,7 +71,6 @@ export const createCourse = async (
       enrollments: [],
     });
 
-    await newCourse.save();
     res.json({ message: "Course created successfully", data: newCourse });
   } catch (error) {
     res.status(500).json({ message: "Error creating course", error });
@@ -88,8 +87,6 @@ export const updateCourse = async (
   const { userId } = getAuth(req);
   const files = req.files as Express.Multer.File[];
 
-
-  
   try {
     const course = await CourseModel.findById(courseId);
     if (!course) {
@@ -101,7 +98,6 @@ export const updateCourse = async (
       res.status(403).json({ message: "Not authorized to update this course" });
       return;
     }
-    
 
     if (updateData.price) {
       const price = parseInt(updateData.price);
@@ -121,47 +117,58 @@ export const updateCourse = async (
           ? JSON.parse(updateData.sections)
           : updateData.sections;
 
-      updateData.sections = await Promise.all(sectionsData.map(async (section: any, sectionIndex: number) => ({
-        ...section,
-        sectionId: section.sectionId || uuidv4(),
-        chapters: await Promise.all(section.chapters.map(async (chapter: any, chapterIndex: number) => {
+      updateData.sections = await Promise.all(
+        sectionsData.map(async (section: any, sectionIndex: number) => ({
+          ...section,
+          sectionId: section.sectionId || uuidv4(),
+          chapters: await Promise.all(
+            section.chapters.map(async (chapter: any, chapterIndex: number) => {
+              const videoFile = files?.find(
+                (file) => file.fieldname === `video_${chapter.chapterId}`
+              );
 
-          const videoFile = files?.find(
-            (file) => file.fieldname === `video_${chapter.chapterId}`
-          );
+              let videoData = chapter.video;
 
-          let videoData = chapter.video;
+              if (videoFile) {
+                try {
+                  console.log(
+                    `Uploading video for chapter ${chapter.title}...`
+                  );
 
-          if ( videoFile) {
-            try {
-              console.log(`Uploading video for chapter ${chapter.title}...`);
+                  const result = await cloudinary.uploader.upload(
+                    videoFile.path,
+                    {
+                      folder: `courses/${courseId}/sections/${sectionIndex}/chapters/${chapterIndex}`,
+                      resource_type: "video",
+                      allowed_formats: ["mp4", "webm", "mov"],
+                    }
+                  );
+                  console.log("Video upload result:", result);
+                  fs.unlinkSync(videoFile.path);
 
-              const result = await cloudinary.uploader.upload(videoFile.path, {
-                folder: `courses/${courseId}/sections/${sectionIndex}/chapters/${chapterIndex}`,
-                resource_type: 'video',
-                allowed_formats: ['mp4', 'webm', 'mov'],
-              });
-              console.log("Video upload result:", result);
-              fs.unlinkSync(videoFile.path);
+                  chapter.video = {
+                    secure_url: result.secure_url,
+                    public_id: result.public_id,
+                  };
+                } catch (error) {
+                  console.error(
+                    `Error uploading video for chapter ${chapter.title}:`,
+                    error
+                  );
+                  throw new Error(
+                    `Failed to upload video for chapter ${chapter.title}`
+                  );
+                }
+              }
 
-              chapter.video = {
-                secure_url: result.secure_url,
-                public_id: result.public_id
+              return {
+                ...chapter,
+                chapterId: chapter.chapterId || uuidv4(),
               };
-            } catch (error) {
-              console.error(`Error uploading video for chapter ${chapter.title}:`, error);
-              throw new Error(`Failed to upload video for chapter ${chapter.title}`);
-            }
-          }
-
-
-          return {
-            ...chapter,
-            chapterId: chapter.chapterId || uuidv4(),
-
-          };
-        })),
-      })));
+            })
+          ),
+        }))
+      );
     }
 
     await CourseModel.findByIdAndUpdate(courseId, updateData, { new: true });
@@ -197,10 +204,13 @@ export const deleteCourse = async (
         if (chapter.type === "Video" && chapter.video?.public_id) {
           try {
             await cloudinary.uploader.destroy(chapter.video.public_id, {
-              resource_type: 'video'
+              resource_type: "video",
             });
           } catch (error) {
-            console.error(`Error deleting video for chapter ${chapter.title}:`, error);
+            console.error(
+              `Error deleting video for chapter ${chapter.title}:`,
+              error
+            );
           }
         }
       }
@@ -211,4 +221,3 @@ export const deleteCourse = async (
     res.status(500).json({ message: "Error deleting course", error });
   }
 };
-
