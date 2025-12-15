@@ -1,13 +1,13 @@
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const connectDB = require("./DB/Connection/connection");
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import connectDB from "./DB/Connection/connection.js";
 /* Routers Import */
-const CoursesRouter = require("./modules/Courses/Courses.router");
-const UserSettingsRouter = require("./modules/UserClerk/userClerk.router");
-const { clerkMiddleware, requireAuth } = require("@clerk/express");
-const TransactionRouter = require("./modules/Transactions/transactions.router");
-const userCourseProgressRoute = require("./modules/UserCoursesProgress/userCoursesProgress.router");
+import CoursesRouter from "./modules/Courses/Courses.router.js";
+import UserSettingsRouter from "./modules/UserClerk/userClerk.router.js";
+import { clerkMiddleware, requireAuth } from "@clerk/express";
+import TransactionRouter from "./modules/Transactions/transactions.router.js";
+import userCourseProgressRoute from "./modules/UserCoursesProgress/userCoursesProgress.router.js";
 
 const bootstarp = (app, express) => {
   connectDB();
@@ -28,4 +28,4 @@ const bootstarp = (app, express) => {
   app.use("/api/course-progress", requireAuth(), userCourseProgressRoute);
 };
 
-module.exports = bootstarp;
+export default bootstarp;

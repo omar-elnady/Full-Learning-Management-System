@@ -1,6 +1,6 @@
-const multer = require("multer");
+import multer from "multer";
 
-const fileVaildation = {
+export const fileVaildation = {
   image: ["image/jpeg", "image/png", "image/gif"],
   files: ["application/pdf", "application/msword"],
   video: [
@@ -12,7 +12,7 @@ const fileVaildation = {
   ],
 };
 
-function fileUplode(vaildationFile) {
+export function fileUplode(vaildationFile) {
   const storage = multer.diskStorage({});
   function fileFilter(req, file, cb) {
     if (vaildationFile.includes(file.mimetype)) {
@@ -24,5 +24,3 @@ function fileUplode(vaildationFile) {
   const upload = multer({ dest: "uploads", fileFilter, storage });
   return upload;
 }
-
-module.exports = { fileVaildation, fileUplode };

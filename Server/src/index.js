@@ -1,6 +1,6 @@
-const express = require("express");
-const bootstarp = require("./bootstrap");
-const dotenv = require("dotenv");
+import express from "express";
+import bootstarp from "./bootstrap.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();

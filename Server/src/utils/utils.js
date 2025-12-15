@@ -1,6 +1,11 @@
-const path = require("path");
+import path from "path";
 
-const updateCourseVideoInfo = (course, sectionId, chapterId, videoUrl) => {
+export const updateCourseVideoInfo = (
+  course,
+  sectionId,
+  chapterId,
+  videoUrl
+) => {
   const section = course.sections?.find((s) => s.sectionId === sectionId);
   if (!section) {
     throw new Error(`Section not found: ${sectionId}`);
@@ -15,7 +20,7 @@ const updateCourseVideoInfo = (course, sectionId, chapterId, videoUrl) => {
   chapter.type = "Video";
 };
 
-const validateUploadedFiles = (files) => {
+export const validateUploadedFiles = (files) => {
   const allowedExtensions = [".mp4", ".m3u8", ".mpd", ".ts", ".m4s"];
   for (const file of files) {
     const ext = path.extname(file.originalname).toLowerCase();
@@ -25,7 +30,7 @@ const validateUploadedFiles = (files) => {
   }
 };
 
-const getContentType = (filename) => {
+export const getContentType = (filename) => {
   const ext = path.extname(filename).toLowerCase();
   switch (ext) {
     case ".mp4":
@@ -44,7 +49,12 @@ const getContentType = (filename) => {
 };
 
 // Preserved HLS/DASH upload logic for future use
-const handleAdvancedVideoUpload = async (s3, files, uniqueId, bucketName) => {
+export const handleAdvancedVideoUpload = async (
+  s3,
+  files,
+  uniqueId,
+  bucketName
+) => {
   const isHLSOrDASH = files.some(
     (file) =>
       file.originalname.endsWith(".m3u8") || file.originalname.endsWith(".mpd")
@@ -83,7 +93,7 @@ const handleAdvancedVideoUpload = async (s3, files, uniqueId, bucketName) => {
   return null; // Return null if not HLS/DASH to handle regular upload
 };
 
-const mergeSections = (existingSections, newSections) => {
+export const mergeSections = (existingSections, newSections) => {
   const existingSectionsMap = new Map();
   for (const existingSection of existingSections) {
     existingSectionsMap.set(existingSection.sectionId, existingSection);
@@ -104,7 +114,7 @@ const mergeSections = (existingSections, newSections) => {
   return Array.from(existingSectionsMap.values());
 };
 
-const mergeChapters = (existingChapters, newChapters) => {
+export const mergeChapters = (existingChapters, newChapters) => {
   const existingChaptersMap = new Map();
   for (const existingChapter of existingChapters) {
     existingChaptersMap.set(existingChapter.chapterId, existingChapter);
@@ -120,7 +130,7 @@ const mergeChapters = (existingChapters, newChapters) => {
   return Array.from(existingChaptersMap.values());
 };
 
-const calculateOverallProgress = (sections) => {
+export const calculateOverallProgress = (sections) => {
   const totalChapters = sections.reduce(
     (acc, section) => acc + section.chapters.length,
     0
@@ -133,14 +143,4 @@ const calculateOverallProgress = (sections) => {
   );
 
   return totalChapters > 0 ? (completedChapters / totalChapters) * 100 : 0;
-};
-
-module.exports = {
-  updateCourseVideoInfo,
-  validateUploadedFiles,
-  getContentType,
-  handleAdvancedVideoUpload,
-  mergeSections,
-  mergeChapters,
-  calculateOverallProgress,
 };

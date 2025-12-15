@@ -1,10 +1,10 @@
-const CourseModel = require("../../../DB/models/courseModel");
-const { v4: uuidv4 } = require("uuid");
-const { getAuth } = require("@clerk/express");
-const cloudinary = require("../../../utils/cloudinary");
-const fs = require("fs");
+import CourseModel from "../../../DB/models/courseModel.js";
+import { v4 as uuidv4 } from "uuid";
+import { getAuth } from "@clerk/express";
+import cloudinary from "../../../utils/cloudinary.js";
+import fs from "fs";
 
-const listCourses = async (req, res, next) => {
+export const listCourses = async (req, res, next) => {
   const { category } = req.query;
   try {
     const courses =
@@ -17,7 +17,7 @@ const listCourses = async (req, res, next) => {
   }
 };
 
-const getCourse = async (req, res, next) => {
+export const getCourse = async (req, res, next) => {
   const { courseId } = req.params;
   try {
     if (!courseId) {
@@ -35,7 +35,7 @@ const getCourse = async (req, res, next) => {
   }
 };
 
-const createCourse = async (req, res, next) => {
+export const createCourse = async (req, res, next) => {
   try {
     const { teacherId, teacherName } = req.body;
     if (!teacherId || !teacherName) {
@@ -64,7 +64,7 @@ const createCourse = async (req, res, next) => {
   }
 };
 
-const updateCourse = async (req, res, next) => {
+export const updateCourse = async (req, res, next) => {
   const { courseId } = req.params;
   const updateData = { ...req.body };
   const { userId } = getAuth(req);
@@ -163,7 +163,7 @@ const updateCourse = async (req, res, next) => {
   }
 };
 
-const deleteCourse = async (req, res, next) => {
+export const deleteCourse = async (req, res, next) => {
   const { courseId } = req.params;
   const { userId } = getAuth(req);
 
@@ -199,12 +199,4 @@ const deleteCourse = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({ message: "Error deleting course", error });
   }
-};
-
-module.exports = {
-  listCourses,
-  getCourse,
-  createCourse,
-  updateCourse,
-  deleteCourse,
 };

@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const userCoursesProgressController = require("./controller/userCoursesProgress");
+import { Router } from "express";
+import * as userCoursesProgressController from "./controller/userCoursesProgress.js";
 const router = Router();
 
 router.get(
@@ -15,4 +15,4 @@ router.put(
   userCoursesProgressController.updateUserCourseProgress
 );
 
-module.exports = router;
+export default router;

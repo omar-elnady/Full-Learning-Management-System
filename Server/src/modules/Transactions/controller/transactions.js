@@ -1,8 +1,8 @@
-const Stripe = require("stripe");
-const dotenv = require("dotenv");
-const Course = require("../../../DB/models/courseModel");
-const Transaction = require("../../../DB/models/transactionModel");
-const UserCourseProgress = require("../../../DB/models/userCourseProgressModel");
+import Stripe from "stripe";
+import dotenv from "dotenv";
+import Course from "../../../DB/models/courseModel.js";
+import Transaction from "../../../DB/models/transactionModel.js";
+import UserCourseProgress from "../../../DB/models/userCourseProgressModel.js";
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-08-16",
 });
 
-const listTransactions = async (req, res) => {
+export const listTransactions = async (req, res) => {
   const { userId } = req.query;
 
   try {
@@ -33,7 +33,7 @@ const listTransactions = async (req, res) => {
   }
 };
 
-const createStripePaymentIntent = async (req, res) => {
+export const createStripePaymentIntent = async (req, res) => {
   let { amount } = req.body;
 
   if (!amount || amount <= 0) {
@@ -63,7 +63,7 @@ const createStripePaymentIntent = async (req, res) => {
   }
 };
 
-const createTransaction = async (req, res) => {
+export const createTransaction = async (req, res) => {
   const { userId, courseId, transactionId, amount, paymentProvider } = req.body;
 
   try {
@@ -117,10 +117,4 @@ const createTransaction = async (req, res) => {
       error,
     });
   }
-};
-
-module.exports = {
-  listTransactions,
-  createStripePaymentIntent,
-  createTransaction,
 };

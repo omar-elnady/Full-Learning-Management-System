@@ -1,10 +1,8 @@
-const { createClerkClient } = require("@clerk/express");
-const dotenv = require("dotenv");
+import { createClerkClient } from "@clerk/express";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const clerkClient = createClerkClient({
+export const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
 });
-
-module.exports.clerkClient = clerkClient;

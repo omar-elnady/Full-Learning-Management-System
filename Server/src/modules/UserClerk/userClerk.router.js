@@ -1,7 +1,7 @@
-const { Router } = require("express");
-const userClerkController = require("./controller/userClerk");
+import { Router } from "express";
+import * as userClerkController from "./controller/userClerk.js";
 const router = Router();
 
 router.put("/:userId", userClerkController.updateUser);
 
-module.exports = router;
+export default router;

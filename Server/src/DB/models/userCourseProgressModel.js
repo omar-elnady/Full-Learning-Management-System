@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const chapterProgressSchema = new Schema({
   chapterId: {
@@ -58,4 +58,4 @@ const userCourseProgressModel = model(
   "UserCourseProgress",
   userCourseProgressSchema
 );
-module.exports = userCourseProgressModel;
+export default userCourseProgressModel;

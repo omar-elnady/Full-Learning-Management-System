@@ -1,13 +1,13 @@
-const {
+import {
   mergeSections,
   calculateOverallProgress,
-} = require("../../../utils/utils");
-const { getAuth } = require("@clerk/express");
-const UserCourseProgressModel = require("../../../DB/models/userCourseProgressModel");
-const CourseModel = require("../../../DB/models/courseModel");
-const mongoose = require("mongoose");
+} from "../../../utils/utils.js";
+import { getAuth } from "@clerk/express";
+import UserCourseProgressModel from "../../../DB/models/userCourseProgressModel.js";
+import CourseModel from "../../../DB/models/courseModel.js";
+import mongoose from "mongoose";
 
-const getUserEnrolledCourses = async (req, res) => {
+export const getUserEnrolledCourses = async (req, res) => {
   const { userId } = req.params;
   const auth = getAuth(req);
 
@@ -39,7 +39,7 @@ const getUserEnrolledCourses = async (req, res) => {
   }
 };
 
-const getUserCourseProgress = async (req, res) => {
+export const getUserCourseProgress = async (req, res) => {
   const { userId, courseId } = req.params;
 
   try {
@@ -65,7 +65,7 @@ const getUserCourseProgress = async (req, res) => {
   }
 };
 
-const updateUserCourseProgress = async (req, res) => {
+export const updateUserCourseProgress = async (req, res) => {
   const { userId, courseId } = req.params;
   const progressData = req.body;
 
@@ -112,10 +112,4 @@ const updateUserCourseProgress = async (req, res) => {
       error,
     });
   }
-};
-
-module.exports = {
-  getUserEnrolledCourses,
-  getUserCourseProgress,
-  updateUserCourseProgress,
 };

@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const commentSchema = new Schema(
   {
@@ -67,4 +67,4 @@ const courseSchema = new Schema(
 );
 
 const CourseModel = model("Course", courseSchema);
-module.exports = CourseModel;
+export default CourseModel;

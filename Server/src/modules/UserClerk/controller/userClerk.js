@@ -1,6 +1,6 @@
-const { clerkClient } = require("../../../clerk");
+import { clerkClient } from "../../../clerk.js";
 
-const updateUser = async (req, res, next) => {
+export const updateUser = async (req, res, next) => {
   const { userId } = req.params;
   const userData = req.body;
   try {
@@ -15,5 +15,3 @@ const updateUser = async (req, res, next) => {
     res.status(500).json({ message: "Error", error });
   }
 };
-
-module.exports = { updateUser };

@@ -1,7 +1,7 @@
-const { Router } = require("express");
-const CourseController = require("./controller/courses");
-const { requireAuth } = require("@clerk/express");
-const { fileUplode, fileVaildation } = require("../../utils/multer.cloudinary");
+import { Router } from "express";
+import * as CourseController from "./controller/courses.js";
+import { requireAuth } from "@clerk/express";
+import { fileUplode, fileVaildation } from "../../utils/multer.cloudinary.js";
 
 const router = Router();
 
@@ -16,4 +16,4 @@ router.put(
 router.delete("/:courseId", requireAuth(), CourseController.deleteCourse);
 router.get("/:courseId", CourseController.getCourse);
 
-module.exports = router;
+export default router;
