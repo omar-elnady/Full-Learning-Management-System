@@ -9,7 +9,7 @@ import { createClerkClient } from '@clerk/express';
 
 dotenv.config();
 const app: Express = express()
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 
 export const clerkClient = createClerkClient({
     secretKey: process.env.CLERK_SECRET_KEY,
@@ -26,5 +26,5 @@ app.listen(port, () => {
 
 })
 
-export default app;
+
 
