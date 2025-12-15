@@ -1,15 +1,10 @@
-import { NextFunction, Request, Response } from "express";
-import CourseModel from "../../../DB/models/courseModel";
-import { v4 as uuidv4 } from "uuid";
-import { getAuth } from "@clerk/express";
-import cloudinary from "../../../utils/cloudinary";
-import fs from "fs";
+const CourseModel = require("../../../DB/models/courseModel");
+const { v4: uuidv4 } = require("uuid");
+const { getAuth } = require("@clerk/express");
+const cloudinary = require("../../../utils/cloudinary");
+const fs = require("fs");
 
-export const listCourses = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+const listCourses = async (req, res, next) => {
   const { category } = req.query;
   try {
     const courses =
@@ -22,11 +17,7 @@ export const listCourses = async (
   }
 };
 
-export const getCourse = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+const getCourse = async (req, res, next) => {
   const { courseId } = req.params;
   try {
     if (!courseId) {
@@ -44,11 +35,7 @@ export const getCourse = async (
   }
 };
 
-export const createCourse = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+const createCourse = async (req, res, next) => {
   try {
     const { teacherId, teacherName } = req.body;
     if (!teacherId || !teacherName) {
@@ -57,7 +44,7 @@ export const createCourse = async (
     }
 
     const newCourse = await CourseModel.create({
-      courseId: 100,
+      courseId: 100, // This seems hardcoded in original TS too? Or generated? Keeping as is.
       teacherId,
       teacherName,
       title: "Untitled Course",
@@ -77,15 +64,11 @@ export const createCourse = async (
   }
 };
 
-export const updateCourse = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+const updateCourse = async (req, res, next) => {
   const { courseId } = req.params;
   const updateData = { ...req.body };
   const { userId } = getAuth(req);
-  const files = req.files as Express.Multer.File[];
+  const files = req.files;
 
   try {
     const course = await CourseModel.findById(courseId);
@@ -118,16 +101,16 @@ export const updateCourse = async (
           : updateData.sections;
 
       updateData.sections = await Promise.all(
-        sectionsData.map(async (section: any, sectionIndex: number) => ({
+        sectionsData.map(async (section, sectionIndex) => ({
           ...section,
           sectionId: section.sectionId || uuidv4(),
           chapters: await Promise.all(
-            section.chapters.map(async (chapter: any, chapterIndex: number) => {
+            section.chapters.map(async (chapter, chapterIndex) => {
               const videoFile = files?.find(
                 (file) => file.fieldname === `video_${chapter.chapterId}`
               );
 
-              let videoData = chapter.video;
+              // let videoData = chapter.video; // unused
 
               if (videoFile) {
                 try {
@@ -180,11 +163,7 @@ export const updateCourse = async (
   }
 };
 
-export const deleteCourse = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+const deleteCourse = async (req, res, next) => {
   const { courseId } = req.params;
   const { userId } = getAuth(req);
 
@@ -220,4 +199,12 @@ export const deleteCourse = async (
   } catch (error) {
     res.status(500).json({ message: "Error deleting course", error });
   }
+};
+
+module.exports = {
+  listCourses,
+  getCourse,
+  createCourse,
+  updateCourse,
+  deleteCourse,
 };

@@ -1,14 +1,11 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "type": "commonjs",
+  "main": "src/index.js",
   "scripts": {
-    "build": "tsc && cpx \"src/**/*.json\" dist",
-    "start": "node dist/index.js", 
-    "vercel-build": "tsc",
-    "dev": "npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node src/index.ts\"",
-    "seed": "ts-node  DB/Connection/Dynamodb.ts"
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "seed": "node DB/Connection/Dynamodb.js"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +13,6 @@
   "description": "",
   "dependencies": {
     "@clerk/express": "^1.7.58",
-    "@types/multer": "^2.0.0",
-    "@vercel/node": "^5.5.15",
     "cloudinary": "^2.8.0",
     "core-js": "^3.47.0",
     "cors": "^2.8.5",
@@ -32,16 +27,5 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/morgan": "^1.9.10",
-    "@types/node": "^25.0.2",
-    "@types/uuid": "^11.0.0",
-    "concurrently": "^9.2.1",
-    "cpx": "^1.5.0",
-    "nodemon": "^3.1.11",
-    "rimraf": "^6.1.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
   }
 }

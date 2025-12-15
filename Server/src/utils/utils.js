@@ -1,17 +1,12 @@
-import path from "path";
+const path = require("path");
 
-export const updateCourseVideoInfo = (
-  course: any,
-  sectionId: string,
-  chapterId: string,
-  videoUrl: string
-) => {
-  const section = course.sections?.find((s: any) => s.sectionId === sectionId);
+const updateCourseVideoInfo = (course, sectionId, chapterId, videoUrl) => {
+  const section = course.sections?.find((s) => s.sectionId === sectionId);
   if (!section) {
     throw new Error(`Section not found: ${sectionId}`);
   }
 
-  const chapter = section.chapters?.find((c: any) => c.chapterId === chapterId);
+  const chapter = section.chapters?.find((c) => c.chapterId === chapterId);
   if (!chapter) {
     throw new Error(`Chapter not found: ${chapterId}`);
   }
@@ -20,7 +15,7 @@ export const updateCourseVideoInfo = (
   chapter.type = "Video";
 };
 
-export const validateUploadedFiles = (files: any) => {
+const validateUploadedFiles = (files) => {
   const allowedExtensions = [".mp4", ".m3u8", ".mpd", ".ts", ".m4s"];
   for (const file of files) {
     const ext = path.extname(file.originalname).toLowerCase();
@@ -30,7 +25,7 @@ export const validateUploadedFiles = (files: any) => {
   }
 };
 
-export const getContentType = (filename: string) => {
+const getContentType = (filename) => {
   const ext = path.extname(filename).toLowerCase();
   switch (ext) {
     case ".mp4":
@@ -49,20 +44,15 @@ export const getContentType = (filename: string) => {
 };
 
 // Preserved HLS/DASH upload logic for future use
-export const handleAdvancedVideoUpload = async (
-  s3: any,
-  files: any,
-  uniqueId: string,
-  bucketName: string
-) => {
+const handleAdvancedVideoUpload = async (s3, files, uniqueId, bucketName) => {
   const isHLSOrDASH = files.some(
-    (file: any) =>
+    (file) =>
       file.originalname.endsWith(".m3u8") || file.originalname.endsWith(".mpd")
   );
 
   if (isHLSOrDASH) {
     // Handle HLS/MPEG-DASH Upload
-    const uploadPromises = files.map((file: any) => {
+    const uploadPromises = files.map((file) => {
       const s3Key = `videos/${uniqueId}/${file.originalname}`;
       return s3
         .upload({
@@ -77,7 +67,7 @@ export const handleAdvancedVideoUpload = async (
 
     // Determine manifest file URL
     const manifestFile = files.find(
-      (file: any) =>
+      (file) =>
         file.originalname.endsWith(".m3u8") ||
         file.originalname.endsWith(".mpd")
     );
@@ -93,11 +83,8 @@ export const handleAdvancedVideoUpload = async (
   return null; // Return null if not HLS/DASH to handle regular upload
 };
 
-export const mergeSections = (
-  existingSections: any[],
-  newSections: any[]
-): any[] => {
-  const existingSectionsMap = new Map<string, any>();
+const mergeSections = (existingSections, newSections) => {
+  const existingSectionsMap = new Map();
   for (const existingSection of existingSections) {
     existingSectionsMap.set(existingSection.sectionId, existingSection);
   }
@@ -117,11 +104,8 @@ export const mergeSections = (
   return Array.from(existingSectionsMap.values());
 };
 
-export const mergeChapters = (
-  existingChapters: any[],
-  newChapters: any[]
-): any[] => {
-  const existingChaptersMap = new Map<string, any>();
+const mergeChapters = (existingChapters, newChapters) => {
+  const existingChaptersMap = new Map();
   for (const existingChapter of existingChapters) {
     existingChaptersMap.set(existingChapter.chapterId, existingChapter);
   }
@@ -136,17 +120,27 @@ export const mergeChapters = (
   return Array.from(existingChaptersMap.values());
 };
 
-export const calculateOverallProgress = (sections: any[]): number => {
+const calculateOverallProgress = (sections) => {
   const totalChapters = sections.reduce(
-    (acc: number, section: any) => acc + section.chapters.length,
+    (acc, section) => acc + section.chapters.length,
     0
   );
 
   const completedChapters = sections.reduce(
-    (acc: number, section: any) =>
-      acc + section.chapters.filter((chapter: any) => chapter.completed).length,
+    (acc, section) =>
+      acc + section.chapters.filter((chapter) => chapter.completed).length,
     0
   );
 
   return totalChapters > 0 ? (completedChapters / totalChapters) * 100 : 0;
+};
+
+module.exports = {
+  updateCourseVideoInfo,
+  validateUploadedFiles,
+  getContentType,
+  handleAdvancedVideoUpload,
+  mergeSections,
+  mergeChapters,
+  calculateOverallProgress,
 };

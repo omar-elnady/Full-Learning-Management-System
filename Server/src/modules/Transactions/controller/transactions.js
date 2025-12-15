@@ -1,9 +1,8 @@
-import Stripe from "stripe";
-import dotenv from "dotenv";
-import { Request, Response } from "express";
-import Course from "../../../DB/models/courseModel";
-import Transaction from "../../../DB/models/transactionModel";
-import UserCourseProgress from "../../../DB/models/userCourseProgressModel";
+const Stripe = require("stripe");
+const dotenv = require("dotenv");
+const Course = require("../../../DB/models/courseModel");
+const Transaction = require("../../../DB/models/transactionModel");
+const UserCourseProgress = require("../../../DB/models/userCourseProgressModel");
 
 dotenv.config();
 
@@ -13,15 +12,11 @@ if (!process.env.STRIPE_SECRET_KEY) {
   );
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string, {
-    apiVersion: "2023-08-16" as any,
-  });
-  
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-08-16",
+});
 
-export const listTransactions = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const listTransactions = async (req, res) => {
   const { userId } = req.query;
 
   try {
@@ -38,10 +33,7 @@ export const listTransactions = async (
   }
 };
 
-export const createStripePaymentIntent = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const createStripePaymentIntent = async (req, res) => {
   let { amount } = req.body;
 
   if (!amount || amount <= 0) {
@@ -71,11 +63,7 @@ export const createStripePaymentIntent = async (
   }
 };
 
-export const createTransaction = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-
+const createTransaction = async (req, res) => {
   const { userId, courseId, transactionId, amount, paymentProvider } = req.body;
 
   try {
@@ -102,9 +90,9 @@ export const createTransaction = async (
       courseId,
       enrollmentDate: new Date().toISOString(),
       overallProgress: 0,
-      sections: course.sections.map((section: any) => ({
+      sections: course.sections.map((section) => ({
         sectionId: section._id || section.sectionId,
-        chapters: section.chapters.map((chapter: any) => ({
+        chapters: section.chapters.map((chapter) => ({
           chapterId: chapter._id || chapter.chapterId,
           completed: false,
         })),
@@ -129,4 +117,10 @@ export const createTransaction = async (
       error,
     });
   }
+};
+
+module.exports = {
+  listTransactions,
+  createStripePaymentIntent,
+  createTransaction,
 };

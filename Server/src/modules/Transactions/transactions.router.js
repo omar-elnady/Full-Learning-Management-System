@@ -1,5 +1,5 @@
-import { Router } from "express";
-import * as TransactionsController from "./controller/transactions";
+const { Router } = require("express");
+const TransactionsController = require("./controller/transactions");
 const router = Router();
 
 router.get("/", TransactionsController.listTransactions);
@@ -9,4 +9,4 @@ router.post(
 );
 router.post("/", TransactionsController.createTransaction);
 
-export default router;
+module.exports = router;
