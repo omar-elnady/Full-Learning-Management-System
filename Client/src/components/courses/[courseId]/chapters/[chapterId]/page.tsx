@@ -23,7 +23,7 @@ const Course = () => {
   } = useCourseProgressData();
   console.log("currentChapter.video:", currentChapter);
 
-  const playerRef = useRef<ReactPlayer>(null);
+  const playerRef = useRef<any>(null);
 
   const handleProgress = ({ played }: { played: number }) => {
     if (
