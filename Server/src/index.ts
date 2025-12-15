@@ -20,8 +20,11 @@ bootstarp(app, express)
 
 
 
+
 app.listen(port, () => {
     console.log(`Server is running on Port ${port}`);
 
 })
+
+export default app;
 

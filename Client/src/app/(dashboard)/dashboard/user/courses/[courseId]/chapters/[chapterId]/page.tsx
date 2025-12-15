@@ -1,5 +1,7 @@
 "use client";
 
+import { VideoData } from "@/types/course";
+
 import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -68,7 +70,11 @@ const Course = () => {
             {currentChapter?.type === "Video" && currentChapter.video ? (
               <ReactPlayer
                 ref={playerRef}
-                url={currentChapter.video as string}
+                url={
+                  typeof currentChapter.video === "string"
+                    ? currentChapter.video
+                    : (currentChapter.video as VideoData)?.secure_url
+                }
                 controls
                 width="100%"
                 height="100%"
