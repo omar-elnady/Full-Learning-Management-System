@@ -6,7 +6,8 @@ import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import ReactPlayer from "react-player";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false }) as any;
 import Loading from "@/components/Loading";
 import { useCourseProgressData } from "@/hooks/useCourseProgressData";
 import { FileText, Trophy } from "lucide-react";
@@ -78,14 +79,14 @@ const Course = () => {
                 controls
                 width="100%"
                 height="100%"
-                onProgress={handleProgress}
+                onProgress={handleProgress as any}
                 config={{
                   file: {
                     attributes: {
                       controlsList: "nodownload",
                     },
                   },
-                }}
+                } as any}
               />
             ) : currentChapter?.type === "Text" ? (
               <div className="flex flex-col items-center justify-center p-12 text-center space-y-4">
