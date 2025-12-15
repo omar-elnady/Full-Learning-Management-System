@@ -1,13 +1,13 @@
 'use client'
 import Header from '@/components/Header'
 import { UserProfile } from '@clerk/nextjs'
-import { dark, light } from '@clerk/themes'
+import { dark } from '@clerk/themes'
 import { useTheme } from 'next-themes'
 import React from 'react'
 
 
 const UserProfilePage = () => {
-    const { theme } = useTheme()
+    const { resolvedTheme } = useTheme()
     return (
         <>
             <Header title={`Profile`} subtitle={`View your profile`} />
@@ -15,7 +15,7 @@ const UserProfilePage = () => {
                 path='/dashboard/user/profile'
                 routing='path'
                 appearance={{
-                    baseTheme: theme === 'dark' ? dark : light,
+                    baseTheme: resolvedTheme === 'dark' ? dark : undefined,
                     elements: {
                         scrollBox: "bg-background",
                         navbar: {
