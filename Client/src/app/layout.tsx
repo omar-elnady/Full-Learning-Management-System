@@ -34,17 +34,19 @@ export default function RootLayout({
           disableTransitionOnChange={false}
           storageKey="lms-theme"
         >
-          <ClerkProvider appearance={{
-            elements: {
-              footer: {
-                "& > div > div:nth-child(1)": {
-                  background: "#FFFFFF",
-                  display: "none"
+          <ClerkProvider
+            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+            appearance={{
+              elements: {
+                footer: {
+                  "& > div > div:nth-child(1)": {
+                    background: "#FFFFFF",
+                    display: "none"
+                  },
                 },
-              },
+              }
             }
-          }
-          } >
+            } >
             <Providers>
               <Suspense fallback={null}>
                 <div className="mx-auto w-full h-full justify-center items-center">
