@@ -86,7 +86,7 @@ const Course = () => {
                 controls
                 width="100%"
                 height="100%"
-                onProgress={handleProgress}
+                onProgress={handleProgress as any}
                 config={{
                   file: {
                     attributes: {
