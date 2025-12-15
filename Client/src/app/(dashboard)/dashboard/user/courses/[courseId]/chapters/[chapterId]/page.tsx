@@ -25,7 +25,7 @@ const Course = () => {
     setHasMarkedComplete,
   } = useCourseProgressData();
 
-  const playerRef = useRef<ReactPlayer>(null);
+  const playerRef = useRef<ReactPlayer | null>(null);
 
   const handleProgress = ({ played }: { played: number }) => {
     if (
