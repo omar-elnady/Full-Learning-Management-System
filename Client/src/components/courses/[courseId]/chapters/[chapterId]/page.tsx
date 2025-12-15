@@ -4,7 +4,8 @@ import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import ReactPlayer from "react-player";
+import ReactPlayerOriginal from "react-player";
+const ReactPlayer = ReactPlayerOriginal as any;
 import Loading from "@/components/Loading";
 import { useCourseProgressData } from "@/hooks/useCourseProgressData";
 
@@ -93,7 +94,7 @@ const Course = () => {
                       controlsList: "nodownload",
                     },
                   },
-                }}
+                } as any}
               />
             ) : (
               <div className="course__no-video">
