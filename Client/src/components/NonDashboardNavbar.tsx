@@ -57,7 +57,7 @@ export const NonDashboardNavbar = () => {
     const userRole = user?.publicMetadata?.userType as "student" | "teacher";
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const { theme } = useTheme();
+    const { resolvedTheme } = useTheme()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -106,7 +106,7 @@ export const NonDashboardNavbar = () => {
                         <div className="h-6 w-px bg-border" />
                         <ClerkUserButton
                             appearance={{
-                                baseTheme: theme === "dark" ? dark : light,
+                                baseTheme: resolvedTheme === 'dark' ? dark : undefined,
                                 elements: {
                                     userButtonBox: "scale-100",
                                     avatarBox: "w-9 h-9 border-2 border-primary/20"
@@ -133,7 +133,7 @@ export const NonDashboardNavbar = () => {
                     <SignedIn>
                         <ClerkUserButton
                             appearance={{
-                                baseTheme: theme === "dark" ? dark : light,
+                                baseTheme: resolvedTheme === 'dark' ? dark : undefined,
                                 elements: {
                                     userButtonBox: "scale-90",
                                     avatarBox: "w-8 h-8"
