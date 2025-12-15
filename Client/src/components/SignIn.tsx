@@ -1,60 +1,60 @@
-"use client"
-import { SignIn, useUser } from '@clerk/nextjs'
-import React from 'react'
-import { dark } from '@clerk/themes'
-import { useSearchParams, useRouter } from 'next/navigation';
-import Loading from './Loading';
+"use client";
 
-const SignInComponant = () => {
-    const router = useRouter();
+import { SignIn, useUser } from "@clerk/nextjs";
+import React from "react";
+import { dark } from "@clerk/themes";
+import { useSearchParams } from "next/navigation";
+
+const SignInComponent = () => {
+    const { user } = useUser();
     const searchParams = useSearchParams();
-    const { user, isLoaded, isSignedIn } = useUser();
     const isCheckoutPage = searchParams.get("showSignUp") !== null;
     const courseId = searchParams.get("id");
-    const signUpUrl = isCheckoutPage ? `/checkout?step=1&id=${courseId}&showSignUp=true` : "/signup";
 
-    if (!isLoaded) return <Loading />;
+    const signUpUrl = isCheckoutPage
+        ? `/checkout?step=1&id=${courseId}&showSignUp=true`
+        : "/signup";
 
     const getRedirectUrl = () => {
         if (isCheckoutPage) {
-            return `/checkout?step=2&id=${courseId}`
+            return `/checkout?step=2&id=${courseId}&showSignUp=true`;
         }
+
         const userType = user?.publicMetadata?.userType as string;
         if (userType === "teacher") {
-            return "/dashboard/teacher/courses"
+            return "/teacher/courses";
         }
-        if(userType === "user"){ 
-            return "/dashboard/user/courses"
-        }
-        return "/dashboard"
-    }
+        return "/user/courses";
+    };
+
     return (
         <SignIn
             appearance={{
-                layout: {
-                    unsafe_disableDevelopmentModeWarnings: true,
-                },
+                baseTheme: dark,
                 elements: {
-                    formFieldLabel: "text-white-50 font-normal",
                     rootBox: "flex justify-center items-center py-5",
                     cardBox: "shadow-none",
                     card: "bg-customgreys-secondarybg w-full shadow-none",
                     footer: {
                         background: "#25262F",
                         padding: "0rem 2.5rem",
+                        "& > div > div:nth-child(1)": {
+                            background: "#25262F",
+                        },
                     },
-                    formButtonPrimary: "bg-primary-750 text-white-100 hover:bg-primary-700 !shadow-none",
+                    formFieldLabel: "text-white-50 font-normal",
+                    formButtonPrimary:
+                        "bg-primary-700 text-white-100 hover:bg-primary-600 !shadow-none",
                     formFieldInput: "bg-customgreys-primarybg text-white-50 !shadow-none",
-                    footerActionLink: "text-primary-750 hover:text-primary-700"
+                    footerActionLink: "text-primary-750 hover:text-primary-600",
                 },
-                baseTheme: dark,
             }}
             signUpUrl={signUpUrl}
-            afterSignInUrl={getRedirectUrl() || '/'} // استخدام afterSignInUrl بدلاً من forceRedirectUrl
-            afterSignOutUrl={"/"}
-            routing='hash'
+            forceRedirectUrl={getRedirectUrl()}
+            routing="hash"
+            afterSignOutUrl="/"
         />
     );
-}
+};
 
-export default SignInComponant
+export default SignInComponent;

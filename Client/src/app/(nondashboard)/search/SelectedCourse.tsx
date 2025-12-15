@@ -9,25 +9,28 @@ const SelectedCourse = ({ course, handleEnrollNow, enrolledCourses }: SelectedCo
     const isEnrolled = enrolledCourses?.some(c => c._id === course._id);
 
     return (
-        <div className='selected-course'>
+        <div className='overflow-hidden py-9 px-9 transition-all duration-300'>
             <div>
-                <h3 className='selected-course__title'>{course.title}</h3>
-                <p className="selected-course__author">
-                    By {course.teacherName || " "} |{"  Enrolled : "}
-                    <span className="selected-course__enrollment-count">
-                        {course.enrollments?.length}
+                <h3 className='text-foreground font-semibold text-3xl'>{course.title}</h3>
+
+            </div>
+            <div className="mt-2">
+                <div className='text-muted-foreground mb-1'>
+                    {course.description}
+                </div>
+                <p className="text-muted-foreground text-sm pt-3">
+                    By <span className="font-semibold text-foreground">{course.teacherName || "Unknown"}</span> | Enrolled: {" "}
+                    <span className="font-semibold text-foreground">
+                        {course.enrollments?.length || 0}
                     </span>
                 </p>
-            </div>
-            <div className="selected-course__content">
-                <p className='selected-course__description'>{course.description}</p>
-                <div className='selected-course__sections'>
-                    <h4 className='selected-course__sections-title'>Course Content</h4>
+                <div className='mt-6 max-h-[400px] overflow-y-auto'>
+                    <h4 className='text-foreground/90 font-semibold mb-2'>Course Content</h4>
                     {/* Accrodion Sections  */}
                     <AccordionSections sections={course.sections} />
                 </div>
-                <div className="selected-course__footer">
-                    <span className='selected-course__price'>
+                <div className="flex justify-between items-center mt-5">
+                    <span className='text-primary font-semibold text-2xl'>
                         {formatPrice(course.price)}
                     </span>
                     {isEnrolled ? (
@@ -40,14 +43,14 @@ const SelectedCourse = ({ course, handleEnrollNow, enrolledCourses }: SelectedCo
                                     alert("Course has no content yet.");
                                 }
                             }}
-                            className='bg-green-700 hover:bg-green-600'
+                            className='dark:bg-primary dark:hover:bg-primary/90 dark:text-white text-primary-foreground'
                         >
                             Go to Course
                         </Button>
                     ) : (
                         <Button
                             onClick={() => handleEnrollNow(course._id)}
-                            className='bg-primary-750 hover:bg-primary-700'
+                            className='dark:bg-primary dark:hover:bg-primary/90 dark:text-white text-primary-foreground'
                         >
                             Enroll Now
                         </Button>

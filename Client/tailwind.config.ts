@@ -16,7 +16,7 @@ const config = {
 					'2xl': '1400px'
 				}
 			},
-			colors: {
+				colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -52,13 +52,6 @@ const config = {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				customgreys: {
-					primarybg: '#202124',   
-					secondarybg: '#2A2B2F',    
-					darkGrey: '#2D2E32',      
-					darkerGrey: '#3F4145',    
-					dirtyGrey: '#7E7E7E'        
-				},
 				primary: {
 					'50': '#fdfdff',
 					'100': '#f7f7ff',
@@ -89,10 +82,6 @@ const config = {
 					'950': '#0c2723',
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
-				},
-				white: {
-					'50': '#d2d2d2',
-					'100': '#ffffff'
 				},
 				tertiary: {
 					'50': '#E9B306'

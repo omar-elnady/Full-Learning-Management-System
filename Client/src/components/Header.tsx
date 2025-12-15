@@ -2,10 +2,10 @@ import React from 'react'
 
 const Header = ({ title, subtitle, rightElement }: HeaderProps) => {
     return (
-        <div className='header'>
+        <div className='mb-7 flex justify-between items-center'>
             <div>
-                <h1 className='header__title'>{title}</h1>
-                <p className='header__subtitle'>{subtitle}</p>
+                <h1 className='text-3xl font-bold dark:text-white text-black'>{title}</h1>
+                <p className='text-sm dark:text-gray-400 text-gray-700 mt-1'>{subtitle}</p>
             </div>
             {rightElement && <div> {rightElement} </div>}
         </div>

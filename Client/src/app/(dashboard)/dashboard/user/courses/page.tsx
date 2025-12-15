@@ -62,13 +62,13 @@ const UserCoursesPage = () => {
     return <div>You are not enrolled in any courses yet.</div>;
 
   return (
-    <div className="user-courses">
+    <div className="w-full h-full flex flex-col gap-8">
       <Header title="My Courses" subtitle="View your enrolled courses" />
       <Toolbar
         onSearch={setSearchTerm}
         onCategoryChange={setSelectedCategory}
       />
-      <div className="user-courses__grid">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-7 mt-6 w-full">
         {filteredCourses.map((course) => (
           <CourseCard
             key={course._id}

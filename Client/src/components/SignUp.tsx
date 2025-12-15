@@ -28,18 +28,18 @@ const SignUpComponant = () => {
             unsafe_disableDevelopmentModeWarnings: true,
         },
         elements: {
-            formFieldLabel: "text-white-50 font-normal",
+            formFieldLabel: "text-muted-foreground font-normal",
             rootBox: "flex justify-center items-center py-5",
             cardBox: "shadow-none ",
-            card: "bg-customgreys-secondarybg w-full shadow-none",
+            card: "bg-card w-full shadow-none",
             footer: {
-                background: "#25262F",
+                background: "transparent",
                 padding: "0rem 2.5rem",
 
             },
-            formButtonPrimary: "bg-primary-750 text-white-100  hover:bg-primary-700 !shadow-none",
-            formFieldInput: "bg-customgreys-primarybg text-white-50 !shadow-none",
-            footerActionLink: "text-primary-750 hover:text-primary-700"
+            formButtonPrimary: "bg-primary text-primary-foreground hover:bg-primary/90 !shadow-none",
+            formFieldInput: "bg-background text-foreground !shadow-none border border-input",
+            footerActionLink: "text-primary hover:text-primary/90"
 
 
         },

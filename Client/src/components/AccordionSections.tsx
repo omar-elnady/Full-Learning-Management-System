@@ -9,15 +9,15 @@ const AccordionSections = ({ sections }: AccordionSectionsProps) => {
                 <AccordionItem
                     key={section.sectionId}
                     value={section.sectionTitle}
-                    className='accordion-section' >
-                    <AccordionTrigger className='accordion-section__trigger'>
-                        <h5 className='accordion-section__title'>{section.sectionTitle}</h5>
+                    className='border-x border-b border-gray-600 overflow-hidden first:border-t first:rounded-t-lg last:rounded-b-lg' >
+                    <AccordionTrigger className=' px-4 py-3'>
+                        <h5 className='dark:text-gray-300 text-gray-900 font-medium'>{section.sectionTitle}</h5>
                     </AccordionTrigger>
-                    <AccordionContent className='accordion-section__content'>
+                    <AccordionContent className='px-4 py-3'>
                         <ul>
                             {section.chapters.map((chapter, index) => (
-                                <li key={chapter.chapterId} className='accordion-section__chapter'>
-                                    <FileText  className='mr-2 w-4 h-4' />
+                                <li key={chapter.chapterId} className=' flex items-center dark:text-gray-300 text-gray-900 py-1'>
+                                    <FileText className='mr-2 w-4 h-4' />
                                     <span className='text-sm'>{chapter.title}</span>
                                 </li>
                             ))}

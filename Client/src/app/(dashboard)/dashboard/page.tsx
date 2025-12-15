@@ -9,7 +9,7 @@ export default function DashboardPage() {
     const router = useRouter();
     const { user, isLoaded } = useUser();
 
-    
+
     useEffect(() => {
         if (!isLoaded) return;
 
@@ -22,7 +22,7 @@ export default function DashboardPage() {
         console.log(userType);
         if (userType === "teacher") {
             router.replace("/dashboard/teacher/courses");
-        }  else {
+        } else {
             router.replace("/dashboard/user/courses");
         }
     }, [isLoaded, user, router]);

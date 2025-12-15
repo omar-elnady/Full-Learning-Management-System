@@ -6,7 +6,8 @@ const UserSettings = () => {
         <div className='w-3/5'>
             <SharedNotificationSettings
                 title='User Settings'
-                subtitle='Manage your user settings' />
+                subtitle='Manage your notification preferences and account settings'
+            />
         </div>
     )
 }

@@ -24,6 +24,7 @@ import Loading from "./Loading";
 import Image from "next/image";
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 const AppSidebar = () => {
   const { user, isLoaded } = useUser();
@@ -52,8 +53,7 @@ const AppSidebar = () => {
   return (
     <Sidebar
       collapsible="icon"
-      style={{ height: "100vh" }}
-      className="bg-customgreys-primarybg border-none shadow-lg"
+      className="bg-gray-100 border-none shadow-lg min-h-screen h-full"
     >
       <SidebarHeader>
         <SidebarMenu>
@@ -61,20 +61,22 @@ const AppSidebar = () => {
             <SidebarMenuButton
               size="lg"
               onClick={() => toggleSidebar()}
-              className="group hover:bg-customgreys-secondarybg"
+              className="group hover:bg-muted text-foreground"
             >
-              <div className="app-sidebar__logo-container group ">
-                <div className="app-sidebar__logo-wrapper">
+              <div className="flex items-center gap-4 pl-2 w-full group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0">
+                <div className="flex items-center gap-3">
                   <Image
                     alt="logo"
                     src="/logo.svg"
-                    width={25}
-                    height={20}
-                    className="app-sidebar__logo"
+                    width={28}
+                    height={28}
+                    className="object-contain"
                   />
-                  <p className="app-sidebar__title">LMS </p>
+                  <p className="text-lg font-bold tracking-wide group-data-[collapsible=icon]:hidden">
+                    LMS
+                  </p>
                 </div>
-                <PanelLeft className="app-sidebar__collapse-icon" />
+                <PanelLeft className="ml-auto h-5 w-5 text-muted-foreground group-data-[collapsible=icon]:hidden" />
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -88,33 +90,33 @@ const AppSidebar = () => {
               <SidebarMenuItem
                 key={index}
                 className={cn(
-                  "app-sidebar__nav-item",
-                  isActive && "bg-gray-800"
+                  "group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:py-4 hover:bg-gray-100",
+                  isActive && "bg-muted"
                 )}
               >
                 <SidebarMenuButton
                   asChild
                   size={"lg"}
                   className={cn(
-                    "app-sidebar__nav-button",
-                    !isActive && "text-customgreys-dirtyGrey"
+                    "gap-4 p-8 hover:bg-gray-100 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center",
+                    !isActive && "text-muted-foreground"
                   )}
                 >
-                  <Link href={link.href}   scroll={false} className={`app-sidebar__nav-link`}>
+                  <Link href={link.href} scroll={false} className={`relative flex items-center`}>
                     <link.icon
-                      className={isActive ? "text-white-50" : "text-gray-500"}
+                      className={isActive ? "text-foreground" : "text-muted-foreground"}
                     />
                     <span
                       className={cn(
-                        "app-sidebar__nav-text",
-                        isActive ? "text-white-50" : "text-gray-500"
+                        "font-medium text-md ml-4 group-data-[collapsible=icon]:hidden",
+                        isActive ? "text-foreground" : "text-muted-foreground"
                       )}
                     >
                       {link.label}
                     </span>
                   </Link>
                 </SidebarMenuButton>
-                {isActive && <div className="app-sidebar__active-indicator" />}
+                {isActive && <div className="absolute right-0 top-0 h-full w-[4px] bg-primary-750" />}
               </SidebarMenuItem>
             );
           })}
@@ -123,15 +125,18 @@ const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <button
-                onClick={() => signOut()}
-                className="app-sidebar__signout"
-              >
-                <LogOut className="mr-2 h-6 w-6" />
-                <span>Sign Out</span>
-              </button>
-            </SidebarMenuButton>
+            <div className="flex items-center gap-2 px-2 py-2">
+              <ThemeToggle />
+              <SidebarMenuButton asChild className="flex-1">
+                <button
+                  onClick={() => signOut()}
+                  className="text-primary-700 pl-8"
+                >
+                  <LogOut className="mr-2 h-6 w-6" />
+                  <span>Sign Out</span>
+                </button>
+              </SidebarMenuButton>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

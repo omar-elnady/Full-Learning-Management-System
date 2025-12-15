@@ -1,0 +1,784 @@
+.bg-sidebar {
+    @apply bg-customgreys-primarybg;
+}
+
+/* Filepond */
+.filepond--panel-root {
+    @apply !bg-customgreys-primarybg;
+}
+
+.filepond--drop-label.filepond--drop-label label {
+    @apply cursor-pointer;
+}
+
+.filepond--drop-label {
+    @apply !text-white-50;
+    @apply cursor-pointer;
+    @apply hover: !bg-customgreys-darkerGrey;
+    @apply hover: !text-white-100;
+}
+
+/* Component Classes */
+
+/* Search Page */
+
+
+/* Selected Course Component */
+
+/* Checkout Pages */
+
+/* Completion Page */
+
+/* Landing Page */
+
+/* Checkout Details Page */
+
+/* Billing Page */
+.billing {
+    @apply space-y-8;
+}
+
+.billing__container {
+    @apply space-y-6 bg-customgreys-secondarybg;
+}
+
+.billing__title {
+    @apply text-2xl font-semibold;
+}
+
+.billing__filters {
+    @apply flex space-x-4;
+}
+
+.billing__select {
+    @apply w-[180px] border-none bg-customgreys-primarybg;
+}
+
+.billing__select-content {
+    @apply bg-customgreys-primarybg;
+}
+
+.billing__select-item {
+    @apply hover: !bg-white-50 hover: !text-customgreys-primarybg cursor-pointer;
+}
+
+.billing__grid {
+    @apply h-[400px] w-full;
+}
+
+.billing__amount {
+    @apply font-medium;
+}
+
+.billing__table {
+    @apply text-customgreys-dirtyGrey min-h-[200px];
+}
+
+.billing__table-header {
+    @apply bg-customgreys-darkGrey;
+}
+
+.billing__table-header-row {
+    @apply;
+}
+
+.billing__table-cell {
+    @apply ;
+}
+
+.billing__table-row {
+    @apply border-none;
+}
+
+.billing__table-row:hover {
+    @apply bg-customgreys-primarybg;
+}
+
+.billing__table-body {
+    @apply bg-customgreys-primarybg min-h-[200px];
+}
+
+/* User Courses Page */
+.user-courses {
+    @apply w-full h-full;
+}
+
+.user-courses__grid {
+    @apply ;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    @apply min-h-screen w-full bg-customgreys-primarybg flex;
+}
+
+.dashboard__content {
+    @apply flex flex-1 overflow-hidden;
+}
+
+.dashboard__main {
+    @apply flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-customgreys-secondarybg;
+}
+
+.dashboard__main--not-course {
+    @apply bg-customgreys-primarybg;
+}
+
+.dashboard__body {
+    @apply px-8 py-4;
+}
+
+/* Course Page */
+.course {
+    @apply flex h-[100vh];
+}
+
+.course__container {
+    @apply flex-grow mx-auto;
+}
+
+.course__breadcrumb {
+    @apply mb-6;
+}
+
+.course__path {
+    @apply text-customgreys-dirtyGrey text-sm mb-2;
+}
+
+.course__current-chapter {
+    @apply text-gray-400;
+}
+
+.course__title {
+    @apply text-2xl text-white-50 font-semibold my-4;
+}
+
+.course__header {
+    @apply flex items-center justify-between;
+}
+
+.course__instructor {
+    @apply relative mr-2 flex items-center gap-2;
+}
+
+.course__avatar {
+    @apply w-10 h-10;
+}
+
+.course__avatar-fallback {
+    @apply bg-secondary-700 text-black;
+}
+
+.course__instructor-name {
+    @apply text-customgreys-dirtyGrey text-sm font-[500];
+}
+
+.course__navigation {
+    @apply flex items-center;
+}
+
+.course__chapter-count {
+    @apply mr-2 text-sm;
+}
+
+.course__nav-button {
+    @apply border-none bg-primary-700;
+}
+
+.course__nav-button--prev {
+    @apply mr-2;
+}
+
+.course__video {
+    @apply mb-6 !border-none;
+}
+
+.course__video-container {
+    @apply h-[50vh] flex justify-center items-center p-0 m-0;
+}
+
+.course__no-video {
+    @apply text-center text-gray-500;
+}
+
+.course__content {
+    @apply flex gap-4 mt-12;
+}
+
+.course__tabs {
+    @apply w-full md:w-2/3;
+}
+
+.course__tabs-list {
+    @apply flex justify-start gap-10;
+}
+
+.course__tab {
+    @apply text-md w-20;
+}
+
+.course__tab-content {
+    @apply mt-5;
+}
+
+.course__tab-card {
+    @apply !border-none shadow-none;
+}
+
+.course__tab-header {
+    @apply p-2;
+}
+
+.course__tab-body {
+    @apply p-2;
+}
+
+.course__instructor-card {
+    @apply w-1/3 h-min border-none bg-white-50/5 p-10 bg-customgreys-secondarybg;
+}
+
+.course__instructor-info {
+    @apply flex flex-col items-start p-0 px-4;
+}
+
+.course__instructor-header {
+    @apply flex items-center gap-3 flex-shrink-0 mb-7;
+}
+
+.course__instructor-avatar {
+    @apply w-10 h-10;
+}
+
+.course__instructor-avatar-fallback {
+    @apply bg-secondary-700 text-black;
+}
+
+.course__instructor-details {
+    @apply flex flex-col items-start;
+}
+
+.course__instructor-name {
+    @apply text-lg font-medium;
+}
+
+.course__instructor-title {
+    @apply text-sm;
+}
+
+.course__instructor-bio {
+    @apply text-sm;
+}
+
+/* Chapters Sidebar */
+.chapters-sidebar {
+    @apply bg-customgreys-secondarybg border-x border-gray-700 overflow-y-auto transition-all duration-500 ease-in-out animate-in fade-in slide-in-from-left flex-shrink-0;
+    height: 100vh;
+}
+
+.chapters-sidebar__title {
+    @apply text-lg font-bold pt-9 pb-6 px-8;
+}
+
+.chapters-sidebar__divider {
+    @apply border-gray-700;
+}
+
+.chapters-sidebar__section {
+    @apply min-w-[300px];
+}
+
+.chapters-sidebar__section-header {
+    @apply cursor-pointer px-8 py-6 hover:bg-gray-700/50;
+}
+
+.chapters-sidebar__section-title-wrapper {
+    @apply flex justify-between items-center;
+}
+
+.chapters-sidebar__section-number {
+    @apply text-gray-500 text-sm;
+}
+
+.chapters-sidebar__chevron {
+    @apply text-white-50/70 w-4 h-4;
+}
+
+.chapters-sidebar__section-title {
+    @apply text-white-50/90 font-semibold;
+}
+
+.chapters-sidebar__section-content {
+    @apply pt-8 pb-8 bg-customgreys-primarybg/40;
+}
+
+.chapters-sidebar__progress {
+    @apply flex justify-between items-center gap-5 mb-2 px-7;
+}
+
+.chapters-sidebar__progress-bars {
+    @apply flex-grow flex gap-1;
+}
+
+.chapters-sidebar__progress-bar {
+    @apply h-1 flex-grow rounded-full bg-gray-700;
+}
+
+.chapters-sidebar__progress-bar--completed {
+    @apply bg-secondary-700;
+}
+
+.chapters-sidebar__trophy {
+    @apply bg-secondary-700 rounded-full p-3 flex items-center justify-center;
+}
+
+.chapters-sidebar__trophy-icon {
+    @apply text-customgreys-secondarybg w-4 h-4;
+}
+
+.chapters-sidebar__progress-text {
+    @apply text-gray-500 text-xs mt-3 mb-5 px-7;
+}
+
+.chapters-sidebar__chapter {
+    @apply flex gap-3 items-center px-7 py-4 text-gray-300 cursor-pointer hover:bg-gray-700/20;
+}
+
+.chapters-sidebar__chapter--current {
+    @apply bg-gray-700/50;
+}
+
+.chapters-sidebar__chapter-check {
+    @apply bg-secondary-700 rounded-full p-1;
+}
+
+.chapters-sidebar__check-icon {
+    @apply text-white-100 w-4 h-4;
+}
+
+.chapters-sidebar__chapter-number {
+    @apply border border-gray-600 rounded-full w-6 h-6 flex items-center justify-center text-xs text-gray-400;
+}
+
+.chapters-sidebar__chapter-number--current {
+    @apply bg-secondary-700 text-gray-800;
+}
+
+.chapters-sidebar__chapter-title {
+    @apply flex-1 text-sm text-gray-500;
+}
+
+.chapters-sidebar__chapter-title--completed {
+    @apply text-gray-500 line-through;
+}
+
+.chapters-sidebar__chapter-title--current {
+    @apply text-secondary-700;
+}
+
+.chapters-sidebar__text-icon {
+    @apply text-gray-500 ml-2 w-4 h-4;
+}
+
+/* Droppable Component */
+.droppable-section {
+    @apply mb-4 p-2 rounded;
+}
+
+.droppable-section--even {
+    @apply bg-customgreys-dirtyGrey/30;
+}
+
+.droppable-section--odd {
+    @apply bg-customgreys-secondarybg;
+}
+
+.droppable-section__header {
+    @apply flex justify-between items-center mb-2 bg-black/30 p-1 rounded;
+}
+
+.droppable-section__title-wrapper {
+    @apply w-full flex flex-col gap-1;
+}
+
+.droppable-section__title-container {
+    @apply w-full flex items-center justify-between;
+}
+
+.droppable-section__title {
+    @apply flex items-center;
+}
+
+.droppable-section__description {
+    @apply text-sm text-customgreys-dirtyGrey ml-6;
+}
+
+.droppable-chapter {
+    @apply flex justify-between items-center ml-4 mb-1 rounded px-1;
+}
+
+.droppable-chapter--even {
+    @apply bg-black/40;
+}
+
+.droppable-chapter--odd {
+    @apply bg-black/20;
+}
+
+.droppable-chapter__title {
+    @apply flex items-center;
+}
+
+.droppable-chapter__actions {
+    @apply flex items-center gap-[1px];
+}
+
+.droppable-chapter__button {
+    @apply p-1;
+}
+
+/* Chapter Modal */
+.chapter-modal {
+    @apply flex flex-col;
+}
+
+.chapter-modal__header {
+    @apply flex justify-between items-center mb-4;
+}
+
+.chapter-modal__title {
+    @apply text-2xl font-bold;
+}
+
+.chapter-modal__close {
+    @apply text-gray-500 hover:text-gray-700;
+}
+
+.chapter-modal__form {
+    @apply space-y-4;
+}
+
+.chapter-modal__video {
+    @apply space-y-2;
+}
+
+.chapter-modal__video-label {
+    @apply text-sm font-medium;
+}
+
+.chapter-modal__preview {
+    @apply flex flex-col items-center space-x-2;
+}
+
+.chapter-modal__toggle {
+    @apply flex items-center space-x-2;
+}
+
+.chapter-modal__toggle-label {
+    @apply text-sm font-medium;
+}
+
+.chapter-modal__actions {
+    @apply flex justify-end space-x-2 mt-6;
+}
+
+/* Section Modal */
+.section-modal {
+    @apply flex flex-col;
+}
+
+.section-modal__header {
+    @apply flex justify-between items-center mb-4;
+}
+
+.section-modal__title {
+    @apply text-2xl font-bold;
+}
+
+.section-modal__close {
+    @apply text-gray-500 hover:text-gray-700;
+}
+
+.section-modal__form {
+    @apply space-y-4;
+}
+
+.section-modal__actions {
+    @apply flex justify-end space-x-2 mt-6;
+}
+
+/* Teacher Courses Page */
+.teacher-courses {
+    @apply w-full h-full;
+}
+
+.teacher-courses__header {
+    @apply bg-primary-700 hover:bg-primary-600;
+}
+
+.teacher-courses__grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 mt-6 w-full;
+}
+
+
+
+/* Course Card */
+
+/* Course Card Search */
+.course-card-search {
+    @apply bg-customgreys-secondarybg overflow-hidden rounded-lg hover:bg-white-100/10 transition duration-200 flex flex-col cursor-pointer border-2 h-full;
+}
+
+.course-card-search--selected {
+    @apply border-primary-600;
+}
+
+.course-card-search--unselected {
+    @apply border-transparent;
+}
+
+.course-card-search__image-container {
+    @apply relative w-auto pt-[56.25%];
+}
+
+.course-card-search__image {
+    @apply object-cover transition-transform;
+}
+
+/* Course Card Teacher */
+
+/* Course Preview */
+.course-preview {
+    @apply space-y-10;
+}
+
+.course-preview__container {
+    @apply w-full bg-customgreys-secondarybg py-8 px-10 flex flex-col gap-5 rounded-lg;
+}
+
+.course-preview__image-wrapper {
+    @apply mb-2 bg-white-50;
+}
+
+.course-preview__title {
+    @apply text-white-50 text-3xl font-bold mb-2;
+}
+
+/* Custom Modal */
+
+/* Footer */
+
+/* Loading */
+
+
+/* Navbar */
+
+
+/* Toolbar */
+
+
+/* Wizard Stepper */
+
+/* NonDashboard Navbar */
+
+
+/* Add these classes for group hover effects */
+.group:hover .dashboard-navbar__search-icon,
+.group:hover .nondashboard-navbar__search-icon {
+    @apply text-white-50;
+}
+
+.group:hover .dashboard-navbar__search-input,
+.group:hover .nondashboard-navbar__search-input {
+    @apply bg-customgreys-darkerGrey text-white-50;
+}
+
+/* Shared Notification Settings */
+
+
+/* Header */
+.header {
+    @apply ;
+}
+
+.header__title {
+    @apply text-3xl font-bold text-white-50;
+}
+
+.header__subtitle {
+    @apply text-sm text-gray-500 mt-1;
+}
+
+/* Course Card Teacher Additional Classes */
+.course-card-teacher__content {
+    @apply w-full pb-6 pt-4 flex-grow flex flex-col justify-between text-gray-400;
+}
+
+.course-card-teacher__title {
+    @apply text-primary-50 text-md md:text-lg line-clamp-2 overflow-hidden;
+}
+
+.course-card-teacher__category {
+    @apply bg-customgreys-dirtyGrey/50 px-2 py-1 mt-3 mb-3 rounded-xl w-fit text-sm;
+}
+
+.course-card-teacher__edit-button {
+    @apply rounded w-full bg-primary-700 border-none hover:bg-primary-600 hover:text-customgreys-primarybg text-white-100 cursor-pointer;
+}
+
+.course-card-teacher__delete-button {
+    @apply rounded w-full bg-red-600 text-white-100 hover:bg-red-400 hover:text-customgreys-primarybg cursor-pointer;
+}
+
+/* NonDashboard Navbar Additional Classes */
+.navbar__brand {
+    @apply font-bold text-lg sm:text-xl hover:text-customgreys-dirtyGrey;
+}
+
+.navbar__notification-button {
+    @apply relative w-7 h-7 sm:w-8 sm:h-8 bg-gray-800 rounded-full flex items-center justify-center;
+}
+
+.navbar__notification-indicator {
+    @apply absolute top-0 right-0 bg-blue-500 h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full;
+}
+
+.navbar__notification-icon {
+    @apply text-gray-400 w-4 h-4 sm:w-5 sm:h-5;
+}
+
+.navbar__search-icon {
+    @apply absolute left-3 sm:left-5 top-1/2 transform -translate-y-1/2 text-customgreys-dirtyGrey transition-all duration-300;
+}
+
+/* Dark Mode Button */
+.dark-mode-button {
+    @apply cursor-pointer text-customgreys-dirtyGrey w-5 h-5 sm:w-6 sm:h-6 hover:text-white-50;
+}
+
+/* Course Card Search Additional Classes */
+.course-card-search__content {
+    @apply p-4 flex flex-col justify-between flex-grow;
+}
+
+.course-card-search__title {
+    @apply font-semibold line-clamp-1;
+}
+
+.course-card-search__description {
+    @apply text-sm mt-1 line-clamp-2;
+}
+
+.course-card-search__teacher {
+    @apply text-customgreys-dirtyGrey text-sm;
+}
+
+.course-card-search__footer {
+    @apply flex justify-between items-center mt-1;
+}
+
+.course-card-search__price {
+    @apply text-primary-500 font-semibold;
+}
+
+.course-card-search__enrollment {
+    @apply text-customgreys-dirtyGrey text-sm;
+}
+
+/* Additional Navbar Classes */
+.navbar__sidebar-trigger {
+    @apply text-customgreys-dirtyGrey hover:text-white-50 transition-colors;
+}
+
+/* Add Chapter Button */
+.add-chapter-button {
+    @apply border-none text-primary-700;
+}
+
+.add-chapter-button__icon {
+    @apply mr-1 h-4 w-4 text-primary-700;
+}
+
+.add-chapter-button__text {
+    @apply text-primary-700;
+}
+
+/* AppSidebar */
+
+
+/* NonDashboard Layout */
+
+
+/* Root Layout */
+
+
+/* Add this class for group hover effect */
+.group .course-card__image {
+    @apply hover:scale-105 w-auto;
+}
+
+/* Add this class for group hover effect */
+.group .course-card-search__image {
+    @apply hover:scale-105 w-auto;
+}
+
+/* Add this class for group hover effect */
+.group .course-card-teacher__image {
+    @apply hover:scale-105 w-auto;
+}
+
+/* Add these classes for group hover effects */
+.group:hover .navbar__search-icon {
+    @apply text-white-50;
+}
+
+.group:hover .navbar__search-input {
+    @apply bg-customgreys-darkerGrey text-white-50;
+}
+
+/* Add these classes for group hover effects */
+.group:hover .add-chapter-button__icon,
+.group:hover .add-chapter-button__text {
+    @apply text-white-100;
+}
+
+/* Add this class for group hover effect */
+[data-collapsible="icon"] .group:hover .app-sidebar__logo {
+    @apply brightness-75;
+}
+
+/* Dashboard Navbar */
+.dashboard-navbar {
+    @apply w-full mb-6 px-4 sm:px-8 pt-7 z-10;
+}
+
+.dashboard-navbar__container {
+    @apply flex justify-between items-center w-full my-3;
+}
+
+.dashboard-navbar__search {
+    @apply flex justify-between items-center gap-2 sm:gap-5;
+}
+
+.dashboard-navbar__search-input {
+    @apply bg-customgreys-primarybg pl-10 sm:pl-14 pr-6 sm:pr-20 py-3 sm:py-4 rounded-xl text-customgreys-dirtyGrey hover:text-white-50 hover:bg-customgreys-darkerGrey transition-all duration-300 text-sm sm:text-base;
+}
+
+.dashboard-navbar__search-icon {
+    @apply absolute left-3 sm:left-5 top-1/2 transform -translate-y-1/2 text-customgreys-dirtyGrey transition-all duration-300;
+}
+
+.dashboard-navbar__actions {
+    @apply flex items-center gap-3 sm:gap-6;
+}
+
+.dashboard-navbar__dark-mode-button {
+    @apply rounded-full flex items-center justify-center;
+}
+
+.dashboard-navbar__dark-mode-icon {
+    @apply cursor-pointer text-customgreys-dirtyGrey w-5 h-5 sm:w-6 sm:h-6 hover:text-white-50;
+}
+
+.dashboard-navbar__sidebar-trigger {
+    @apply text-customgreys-dirtyGrey hover:text-white-50 transition-colors;
+}

@@ -51,7 +51,7 @@ const CourseEditor = () => {
       });
       dispatch(setSections(course.sections || []));
     }
-  }, [course, methods]);
+  }, [course, methods, dispatch]);
 
   const onSubmit = async (data: CourseFormData) => {
     try {
@@ -72,7 +72,7 @@ const CourseEditor = () => {
     <div>
       <div className="flex items-center gap-5 mb-5">
         <button
-          className="flex items-center border border-customgreys-dirtyGrey rounded-lg p-2 gap-2 cursor-pointer hover:bg-customgreys-dirtyGrey hover:text-white-100 text-customgreys-dirtyGrey"
+          className="flex items-center border border-border rounded-lg p-2 gap-2 cursor-pointer hover:bg-muted hover:text-foreground text-muted-foreground transition-colors"
           onClick={() =>
             router.push("/dashboard/teacher/courses", { scroll: false })
           }
@@ -106,7 +106,7 @@ const CourseEditor = () => {
                 />
                 <Button
                   type="submit"
-                  className="bg-primary-700 hover:bg-primary-600"
+                  className="bg-primary hover:bg-primary/90"
                 >
                   {methods.watch("courseStatus")
                     ? "Update Published Course"
@@ -163,9 +163,9 @@ const CourseEditor = () => {
               </div>
             </div>
 
-            <div className="bg-customgreys-darkGrey mt-4 md:mt-0 p-4 rounded-lg basis-1/2">
+            <div className="bg-card mt-4 md:mt-0 p-4 rounded-lg basis-1/2 border border-border">
               <div className="flex justify-between items-center mb-2">
-                <h2 className="text-2xl font-semibold text-secondary-foreground">
+                <h2 className="text-2xl font-semibold text-foreground">
                   Sections
                 </h2>
 
@@ -176,21 +176,21 @@ const CourseEditor = () => {
                   onClick={() =>
                     dispatch(openSectionModal({ sectionIndex: null }))
                   }
-                  className="border-none text-primary-700 group"
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground group"
                 >
-                  <Plus className="mr-1 h-4 w-4 text-primary-700 group-hover:white-100" />
-                  <span className="text-primary-700 group-hover:white-100">
+                  <Plus className="mr-1 h-4 w-4" />
+                  <span className="">
                     Add Section
                   </span>
                 </Button>
               </div>
 
               {isLoading ? (
-                <p>Loading course content...</p>
+                <p className="text-muted-foreground">Loading course content...</p>
               ) : sections.length > 0 ? (
                 <DroppableComponent />
               ) : (
-                <p>No sections available</p>
+                <p className="text-muted-foreground">No sections available</p>
               )}
             </div>
           </div>

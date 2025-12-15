@@ -1,66 +1,64 @@
 "use client";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { BookOpen, Search, Menu, X } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useState } from "react";
-import {
-  SignedIn,
-  UserButton as ClerkUserButton,
-  useUser,
-} from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-import { SidebarTrigger } from '@/components/ui/sidebar'
+
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { UserButton, useUser } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
+import { Bell, Search } from "lucide-react";
+import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
+import { useTheme } from "next-themes";
 
-
-
-export const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
+export const Navbar = () => {
   const { user } = useUser();
+  const { theme } = useTheme();
   const userRole = user?.publicMetadata?.userType as "student" | "teacher";
-  const isMobile = useIsMobile();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter()
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-b-gray-800 shadow-sm">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="dashboard-navbar__search">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+      <div className="container flex h-16 items-center justify-between px-4">
+        {/* Left Section: Sidebar Trigger & Search */}
+        <div className="flex items-center gap-4">
           <div className="md:hidden">
-            <SidebarTrigger className='dashboard-navbar__sidebar-trigger' />
+            <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
           </div>
-          <div className="flex items-center gap-10">
-            <Button
-              onClick={() => (
-                router.push('/search')
+
+          <div className="relative group">
+            <Link
+              href="/search"
+              className={cn(
+                "flex items-center gap-2 pl-4 pr-10 py-2 rounded-full",
+                "bg-muted/50 text-muted-foreground border-transparent",
+                "hover:bg-muted hover:text-foreground hover:border-border",
+                "transition-all duration-300 ease-in-out cursor-pointer"
               )}
-              className="flex items-center gap-2 px-12 md:px-24 py-5 text-customgreys-dirtyGrey hover:text-white-50 bg-customgreys-primarybg hover:bg-gray-700 rounded-xl font-semibold text-lg shadow-lg transition-transform duration-300 hover:scale-105 active:scale-95"
             >
-              <span>Search Courses</span>
-              <Search className="w-5 h-5" />
-            </Button>
+              <Search className="w-4 h-4 transition-transform group-hover:scale-110" />
+              <span className="text-sm font-medium hidden sm:inline">Search Courses...</span>
+              <span className="text-sm font-medium sm:hidden">Search</span>
+            </Link>
           </div>
         </div>
 
+        {/* Right Section: Actions & Profile */}
+        <div className="flex items-center gap-4 md:gap-6">
+          <ThemeToggle />
 
-        <nav className="flex items-center gap-4">
-          <SignedIn>
-            <ClerkUserButton
+          <button className="relative rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors outline-none focus:bg-muted">
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+          </button>
+
+          <div className="pl-4 border-l border-border/50">
+            <UserButton
               appearance={{
-                baseTheme: dark,
+                baseTheme: theme === "dark" ? dark : undefined,
                 elements: {
-                  userButtonOuterIdentifier: "text-white text-base",
-                  userButtonBox: "scale-90 sm:scale-100",
-                  userButtonPopoverCard: {
-                    "& > div > div:nth-child(1)": {
-                      background: "#FFFFFF",
-                      display: "none",
-                    },
-                  },
+                  userButtonAvatarBox: "w-9 h-9 border border-border",
+                  userButtonPopoverCard: { pointerEvents: "initial" },
                 },
               }}
-              showName
+              showName={true}
               userProfileMode="navigation"
               userProfileUrl={
                 userRole === "teacher"
@@ -68,8 +66,8 @@ export const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
                   : "/dashboard/user/profile"
               }
             />
-          </SignedIn>
-        </nav>
+          </div>
+        </div>
       </div>
     </header>
   );

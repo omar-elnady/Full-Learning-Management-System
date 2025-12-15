@@ -50,37 +50,48 @@ const SharedNotificationSettings = ({
 
     if (!user) return <div>Please Sign in to manage your settings. </div>
     return (
-        <div className='notification-settings'>
+        <div className="space-y-4">
             <Header title={title} subtitle={subtitle} />
             <Form {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}
-                    className='notification-settings__form'>
-                    <div className="notification-settings__fields">
-                        <CustomFormField name='courseNotifications'
-                            label='Course Notifications'
-                            type='switch' />
-                        <CustomFormField name='emailAlerts'
-                            label='Email Alerts'
-                            type='switch' />
-                           <CustomFormField name='smsAlerts'
-                            label='SMS Alerts'
-                            type='switch' />
-                        <CustomFormField name='notificationFrequency'
-                            label='Notification Frequency'
-                            type='select'
-                            options={[
-                                { value: 'daily', label: 'Daily', },
-                                { value: 'weekly', label: 'Weekly', },
-                                { value: 'immediate', label: 'Immediate', },
-                            ]} />   
+                <form
+                    onSubmit={methods.handleSubmit(onSubmit)}
+                    className="space-y-4"
+                >
+                    <div className="space-y-6">
+                        <CustomFormField
+                            name="courseNotifications"
+                            label="Course Notifications"
+                            type="switch"
+                        />
+                        <CustomFormField
+                            name="emailAlerts"
+                            label="Email Alerts"
+                            type="switch"
+                        />
+                        <CustomFormField
+                            name="smsAlerts"
+                            label="SMS Alerts"
+                            type="switch"
+                        />
 
+                        <CustomFormField
+                            name="notificationFrequency"
+                            label="Notification Frequency"
+                            type="select"
+                            options={[
+                                { value: "immediate", label: "Immediate" },
+                                { value: "daily", label: "Daily" },
+                                { value: "weekly", label: "Weekly" },
+                            ]}
+                        />
                     </div>
-                    <Button className='notification-settings__submit'>
+
+                    <Button type="submit" className="!mt-8 text-gray-100 bg-primary-700 hover:bg-primary-600">
                         Update Settings
                     </Button>
                 </form>
             </Form>
-        </div >
+        </div>
     )
 }
 

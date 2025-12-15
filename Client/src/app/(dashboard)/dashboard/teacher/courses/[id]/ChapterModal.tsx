@@ -99,6 +99,107 @@ const ChapterModal = () => {
       );
     }
     toast.success(
+import { ChapterFormData, chapterSchema } from "@/app/lib/schemas";
+import { CustomFormField } from "@/components/CustomFormField";
+import CustomModal from "@/components/CustomModal";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { validateVideo } from "@/lib/utils";
+import { addChapter, closeChapterModal, editChapter } from "@/state";
+import { useAppDispatch, useAppSelector } from "@/state/redux";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { X } from "lucide-react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
+
+const ChapterModal = () => {
+  const dispatch = useAppDispatch();
+  const {
+    isChapterModalOpen,
+    selectedSectionIndex,
+    selectedChapterIndex,
+    sections,
+  } = useAppSelector((state) => state.global.courseEditor);
+
+  const chapter: Chapter | undefined =
+    selectedSectionIndex !== null && selectedChapterIndex !== null
+      ? sections[selectedSectionIndex].chapters[selectedChapterIndex]
+      : undefined;
+
+  const methods = useForm<ChapterFormData>({
+    resolver: zodResolver(chapterSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+      video: undefined,
+    },
+  });
+
+  useEffect(() => {
+    if (chapter) {
+      methods.reset({
+        title: chapter.title,
+        content: chapter.content,
+        video:  undefined,
+      });
+    } else {
+      methods.reset({
+        title: "",
+        content: "",
+        video: undefined,
+      });
+    }
+  }, [chapter, methods]);
+
+  const onClose = () => {
+    dispatch(closeChapterModal());
+  };
+
+  const onSubmit = (data: ChapterFormData) => {
+    if (selectedSectionIndex === null) return;
+
+    if (data.video instanceof File) {
+      if (!validateVideo(data.video)) {
+        return;
+      }
+    }
+
+    const newChapter: Chapter = {
+      chapterId: chapter?.chapterId || uuidv4(),
+      title: data.title.trim(),
+      content: data.content.trim(),
+      type: data.video ? "Video" : "Text",
+      video: data.video || undefined,
+      comments: chapter?.comments || []
+    };
+
+    if (selectedChapterIndex === null) {
+      dispatch(
+        addChapter({
+          sectionIndex: selectedSectionIndex,
+          chapter: newChapter,
+        })
+      );
+    } else {
+      dispatch(
+        editChapter({
+          sectionIndex: selectedSectionIndex,
+          chapterIndex: selectedChapterIndex,
+          chapter: newChapter,
+        })
+      );
+    }
+    toast.success(
       `Chapter added/updated successfully but you need to save the course to apply the changes`
     );
     onClose();
@@ -106,10 +207,10 @@ const ChapterModal = () => {
 
   return (
     <CustomModal isOpen={isChapterModalOpen} onClose={onClose}>
-      <div className="chapter-modal">
-        <div className="chapter-modal__header">
-          <h2 className="chapter-modal__title">Add/Edit Chapter</h2>
-          <button onClick={onClose} className="chapter-modal__close">
+      <div className="flex flex-col w-full">
+        <div className="flex justify-between items-center mb-4 border-b border-border pb-4">
+          <h2 className="text-2xl font-bold text-foreground">Add/Edit Chapter</h2>
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -117,7 +218,7 @@ const ChapterModal = () => {
         <Form {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
-            className="chapter-modal__form"
+            className="flex flex-col space-y-4"
           >
             <CustomFormField
               name="title"
@@ -137,7 +238,7 @@ const ChapterModal = () => {
               name="video"
               render={({ field: { onChange, value } }) => (
                 <FormItem>
-                  <FormLabel className="text-customgreys-dirtyGrey text-sm">
+                  <FormLabel className="text-foreground text-sm font-medium">
                     Chapter Video
                   </FormLabel>
                   <FormControl>
@@ -151,30 +252,30 @@ const ChapterModal = () => {
                             onChange(file);
                           }
                         }}
-                        className="border-none bg-customgreys-darkGrey py-2 cursor-pointer"
+                        className="border-input bg-background py-2 cursor-pointer text-foreground file:text-foreground"
                       />
                       {typeof value === "string" && value && (
-                        <div className="my-2 text-sm text-gray-600">
+                        <div className="my-2 text-sm text-muted-foreground">
                           Current video: {(value as string)?.split("/").pop()}
                         </div>
                       )}
                       {value instanceof File && (
-                        <div className="my-2 text-sm text-gray-600">
+                        <div className="my-2 text-sm text-muted-foreground">
                           Selected file: {value.name}
                         </div>
                       )}
                     </div>
                   </FormControl>
-                  <FormMessage className="text-red-400" />
+                  <FormMessage className="text-destructive" />
                 </FormItem>
               )}
             />
 
-            <div className="chapter-modal__actions">
+            <div className="flex justify-end gap-4 mt-6">
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-primary-700">
+              <Button type="submit" className="bg-primary hover:bg-primary/90">
                 Save
               </Button>
             </div>

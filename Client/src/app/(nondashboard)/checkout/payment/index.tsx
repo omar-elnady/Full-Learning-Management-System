@@ -71,35 +71,35 @@ const PaymentPageContent = () => {
     }
     if (!course) return null;
     return (
-        <div className="payment">
-            <div className="payment__container">
+        <div className="flex flex-col w-full">
+            <div className="flex md:flex-row flex-col gap-10 mb-6">
                 {/* Order Summary */}
-                <div className="payment__preview">
+                <div className="md:basis-1/2 rounded-lg">
                     <CoursePreview course={course} />
                 </div>
 
                 {/* Pyament Form */}
-                <div className="payment__form-container">
+                <div className="md:basis-1/2 ">
                     <form
                         id="payment-form"
                         onSubmit={handleSubmit}
-                        className="payment__form"
+                        className="space-y-4"
                     >
-                        <div className="payment__content">
-                            <h1 className="payment__title">Checkout</h1>
-                            <p className="payment__subtitle">
+                        <div className="flex flex-col gap-4 dark:border-none border border-gray-300 bg-gray-50 dark:bg-gray-900 px-10 py-10 rounded-lg">
+                            <h1 className="text-2xl dark:text-white font-bold">Checkout</h1>
+                            <p className="text-sm dark:text-gray-400 text-gray-600">
                                 Fill out the payment details below to complete your purchase.
                             </p>
 
-                            <div className="payment__method">
-                                <h3 className="payment__method-title">Payment Method</h3>
+                            <div className="flex flex-col gap-2 w-full mt-6">
+                                <h3 className="text-md dark:text-white font-semibold">Payment Method</h3>
 
-                                <div className="payment__card-container">
-                                    <div className="payment__card-header">
+                                <div className="flex flex-col border-[2px] border-white-100/5 rounded-lg">
+                                    <div className="flex items-center gap-2 bg-white/5 py-2 px-2">
                                         <CreditCard size={24} />
                                         <span>Credit/Debit Card</span>
                                     </div>
-                                    <div className="payment__card-element">
+                                    <div className="px-4 py-6">
                                         <PaymentElement />
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@ const PaymentPageContent = () => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="payment__actions">
+            <div className="flex justify-between items-center w-full mt-6">
                 <Button
                     className="hover:bg-white-50/10"
                     // onClick={handleSignOutAndNavigate}
@@ -123,7 +123,7 @@ const PaymentPageContent = () => {
                 <Button
                     form="payment-form"
                     type="submit"
-                    className="payment__submit"
+                    className="hover:bg-primary-600 bg-primary-700"
                     disabled={!stripe || !elements}
                 >
                     Pay with Credit Card

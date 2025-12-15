@@ -13,7 +13,7 @@ const TeacherProfilePage = () => {
                 appearance={{
                     baseTheme: dark,
                     elements: {
-                        scrollBox: "bg-customgreys-darkGray",
+                        scrollBox: "bg-background",
                         navbar: {
                             "& > div:not(:nth-child(2))": {
                                 display: "none"

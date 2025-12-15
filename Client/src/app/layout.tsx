@@ -5,6 +5,7 @@ import Providers from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import { Suspense } from "react";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -22,30 +23,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${dmSans.className}  antialiased`}
       >
-        <ClerkProvider appearance={{
-          elements: {
-            footer: {
-              "& > div > div:nth-child(1)": {
-                background: "#FFFFFF",
-                display: "none"
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+          storageKey="lms-theme"
+        >
+          <ClerkProvider appearance={{
+            elements: {
+              footer: {
+                "& > div > div:nth-child(1)": {
+                  background: "#FFFFFF",
+                  display: "none"
+                },
               },
-            },
+            }
           }
-        }
-        } >
-          <Providers>
-            <Suspense fallback={null}>
-              <div className="root-layout">
-                {children}
-              </div>
-            </Suspense>
-            <Toaster richColors closeButton />
-          </Providers>
-        </ClerkProvider>
+          } >
+            <Providers>
+              <Suspense fallback={null}>
+                <div className="mx-auto w-full h-full justify-center items-center">
+                  {children}
+                </div>
+              </Suspense>
+              <Toaster richColors closeButton />
+            </Providers>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html >
   );
