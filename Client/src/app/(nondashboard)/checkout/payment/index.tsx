@@ -94,8 +94,8 @@ const PaymentPageContent = () => {
                             <div className="flex flex-col gap-2 w-full mt-6">
                                 <h3 className="text-md dark:text-white font-semibold">Payment Method</h3>
 
-                                <div className="flex flex-col border-[2px] border-white-100/5 rounded-lg">
-                                    <div className="flex items-center gap-2 bg-white/5 py-2 px-2">
+                                <div className="flex flex-col border-[2px] dark:border-white-100/5 border-gray-800 rounded-lg">
+                                    <div className="flex items-center gap-2 bg-white/5 py-2 px-2 rounded-t-lg">
                                         <CreditCard size={24} />
                                         <span>Credit/Debit Card</span>
                                     </div>

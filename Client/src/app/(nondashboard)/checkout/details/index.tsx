@@ -37,7 +37,7 @@ const ChechoutDetailsPage = () => {
                 </div>
 
                 <div className="basis-1/2 flex-1 h-auto flex flex-col gap-10   dark:bg-gray-900 rounded-lg">
-                    <div className="w-full bg-gray-50 border border-gray-300 py-12 px-24 rounded-lg">
+                    <div className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-none py-12 px-24 rounded-lg">
                         <h2 className="text-3xl font-bold text-center mb-2">Guest Checkout</h2>
                         <p className="mb-6 text-sm text-center dark:text-gray-400 text-gray-600 mx-auto">
                             Enter email to receive course access details and order
@@ -66,12 +66,12 @@ const ChechoutDetailsPage = () => {
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <hr className="w-full border-gray-300" />
+                        <hr className="w-full border-gray-300 dark:border-gray-600" />
                         <span className="px-4 text-sm text-gray-400 whitespace-nowrap">Or</span>
-                        <hr className="w-full border-gray-300" />
+                        <hr className="w-full border-gray-300 dark:border-gray-600" />
                     </div>
 
-                    <div className="w-full border border-gray-300 bg-gray-50 px-2 py-2 flex justify-center items-center rounded-lg">
+                    <div className="w-full border border-gray-300 dark:border-none bg-gray-50 dark:bg-gray-900 px-2 py-2 flex justify-center items-center rounded-lg">
                         {showSignUp ? <SignUpComponent /> : <SignInComponent />}
                     </div>
                 </div>
