@@ -52,11 +52,11 @@ const CourseCard = ({ course, onGoToCourse }: CourseCardProps) => {
         </div>
       </CardContent>
 
-      <CardFooter className="p-5 pt-0 flex justify-between items-center border-t border-border/50 bg-muted/20 sm:p-5">
-        <Badge variant="secondary" className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider">
+      <CardFooter className="p-4 pt-0 flex justify-between items-center border-t border-border/50 bg-muted/20 sm:p-5">
+        <Badge variant="secondary" className="px-2 py-1 mt-2 text-[10px] font-semibold uppercase tracking-wider">
           {course.category}
         </Badge>
-        <span className="text-lg font-bold text-primary">
+        <span className="text-lg mt-2 font-bold text-primary">
           {formatPrice(course.price)}
         </span>
       </CardFooter>

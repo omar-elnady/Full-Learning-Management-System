@@ -44,10 +44,7 @@ export const Navbar = () => {
         <div className="flex items-center gap-4 md:gap-6">
           <ThemeToggle />
 
-          <button className="relative rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors outline-none focus:bg-muted">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-          </button>
+
 
           <div className="pl-4 border-l border-border/50">
             <UserButton

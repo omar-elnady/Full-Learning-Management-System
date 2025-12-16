@@ -48,7 +48,7 @@ const UserBillingPage = () => {
 
         <div className="flex items-center gap-3">
           <Select value={paymentType} onValueChange={setPaymentType}>
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger className="md:w-[160px] w-[200px] py-4">
               <SelectValue placeholder="Filter by provider" />
             </SelectTrigger>
             <SelectContent>

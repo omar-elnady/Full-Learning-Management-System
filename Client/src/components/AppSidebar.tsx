@@ -30,7 +30,7 @@ const AppSidebar = () => {
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const pathname = usePathname();
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, setOpenMobile } = useSidebar();
   const navLinks = {
     student: [
       { icon: BookOpen, label: "Courses", href: "/dashboard/user/courses" },
@@ -90,7 +90,7 @@ const AppSidebar = () => {
               <SidebarMenuItem
                 key={index}
                 className={cn(
-                  "group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:py-4 hover:bg-gray-100",
+                  "group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:py-4 hover:bg-gray-100 dark:hover:bg-gray-900",
                   isActive && "bg-muted"
                 )}
               >
@@ -98,11 +98,11 @@ const AppSidebar = () => {
                   asChild
                   size={"lg"}
                   className={cn(
-                    "gap-4 p-8 hover:bg-gray-100 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center",
+                    "gap-4 p-8 hover:bg-gray-100 dark:hover:bg-gray-900 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center",
                     !isActive && "text-muted-foreground"
                   )}
                 >
-                  <Link href={link.href} scroll={false} className={`relative flex items-center`}>
+                  <Link href={link.href} scroll={false} className={`relative flex items-center`} onClick={() => setOpenMobile(false)}>
                     <link.icon
                       className={isActive ? "text-foreground" : "text-muted-foreground"}
                     />

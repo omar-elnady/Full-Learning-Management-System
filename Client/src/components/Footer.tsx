@@ -22,7 +22,7 @@ const Footer = () => {
                     <Button
                         key={label}
                         asChild
-                        className="px-6 py-2.5 bg-primary text-primary-foreground rounded-full font-semibold hover:bg-primary/90 hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-md"
+                        className="px-6 py-2.5 bg-primary text-white rounded-full font-semibold hover:bg-primary/90 hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-md"
                     >
                         <a href={href}>
                             <Icon size={18} />
